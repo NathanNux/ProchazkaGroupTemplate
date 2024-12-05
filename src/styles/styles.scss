@@ -1,0 +1,181 @@
+.page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100vw;
+    position: relative;
+    color: #fff;
+    padding: 10rem 0rem;
+    background-color: #04444C;
+
+    .header__text{
+        gap: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+    }
+    .devider{
+        height: 200vh
+    }
+}
+
+//navbar
+@import '../components/Sticky/navbar/styles.scss';
+@import '../components/Sticky/navbar/body/styles.scss';
+@import '../components/Sticky/navbar/cursor/styles.scss';
+@import '../components/Sticky/navbar/menu/styles.scss';
+
+//buttons
+@import '../components/Sticky/buttons/RoundButton/styles.scss';
+@import '../components/Sticky/buttons/SmallButton/styles.scss';
+@import '../components/Sticky/buttons/MyButton/styles.scss';
+@import '../components/Sticky/buttons/SvgButton/styles.scss';
+@import '../components/Sticky/buttons/RotatingButton/styles.scss';
+
+// images
+@import '../components/Sticky/images/style.scss';
+
+// text animations
+@import '../components/TextAnims/MainText/styles.scss';
+@import '../components/TextAnims/MainTextV2/styles.scss';
+@import '../components/TextAnims/MainTextV3/styles.scss';
+@import '../components/TextAnims/MainTextV4/styles.scss';
+@import '../components/TextAnims/SubText/styles.scss';
+@import '../components/TextAnims/PageHeading/styles.scss';
+@import '../components/TextAnims/RollingText/styles.scss';
+@import '../components/TextAnims/RollingTextColor/styles.scss';
+@import '../components/TextAnims/StatNumber/styles.scss';
+@import '../components/TextAnims/LoadingNumber/styles.scss';
+
+//SVG animations 
+@import '../components/SvgAnims/ButtonSVGPath/styles.scss';
+@import '../components/SvgAnims/TextSVGPath/styles.scss';
+@import '../components/SvgAnims/TextSVGPath/svgPath/styles.scss';
+@import '../components/SvgAnims/SVGFill/styles.scss';
+
+// Loop animations
+@import '../components/LoopAnims/GraphAnim/Button/styles.scss';
+@import '../components/LoopAnims/GraphAnim/styles.scss';
+@import '../components/LoopAnims/SmoothGraphAnim/styles.scss';
+@import '../components/LoopAnims/SmoothGraphAnim/Button/styles.scss';
+
+//Preloader
+@import '../components/PreLoader/styles.scss';
+
+//Transition
+@import '../components/Transition/styles.scss';
+
+// main anims
+@import '../components/MovignSections/aboutTeam/styles.scss';
+@import '../components/MovignSections/TestiCarousel/styles.scss';
+@import '../components/MovignSections/TestiCarouselDragable/styles.scss';
+@import '../components/MovignSections/BlogProgress/styles.scss';
+
+//logo
+@import '../components/Logo/HoverAnim/styles.scss';
+@import '../components/Logo/onView/styles.scss';
+
+//ClipPath pages
+@import '../components/MovignSections/ClipPathPage/styles.scss';
+
+//benefit program Keyframes
+@import '../components/MovignSections/BenefitProgram/styles.scss';
+//sub benefit program Keyframes
+@import '../components/MovignSections/BenefitProgram/IntroPage/styles.scss';
+@import '../components/MovignSections/BenefitProgram/InfoSection/styles.scss';
+
+// Intros 
+@import '../components/PagesIntro/main/styles.scss';
+@import '../components/PagesIntro/about/styles.scss';
+@import '../components/PagesIntro/reviews/styles.scss';
+@import '../components/PagesIntro/feedBack/styles.scss';
+@import '../components/PagesIntro/contact/styles.scss';
+@import '../components/PagesIntro/blogPost/styles.scss';
+
+//QNA
+@import '../components/OtherAnims/QNA/style.scss';
+
+//Graph Component
+@import '../components/OtherAnims/Graphs/styles.scss';
+//Footer
+@import '../components/OtherAnims/Footer/styles.scss';
+
+//Modem Components
+@import '../components/ModemComponents/ContactBenefit/styles.scss';
+@import '../components/ModemComponents/Cookies/styles.scss';
+@import '../components/ModemComponents/Review/styles.scss';
+
+//Modems 
+@import '../components/Modems/ContactModem/styles.scss';
+@import '../components/Modems/CookiesModem/styles.scss';
+@import '../components/Modems/ReviewModem/styles.scss';
+
+
+// Forms 
+@import '../components/forms/feedback/styles.scss';
+@import '../components/forms/contact/styles.scss';
+
+//404 page
+@import '../components/PagesIntro/404/styles.scss';
+
+//BlogPost
+@import '../components/OtherAnims/blogPost/styles.scss';
+
+// parallax expand
+@import '../components/MovignSections/parallaxExpand/styles.scss';
+
+//About Colage
+@import '../components/MovignSections/eventCollage/styles.scss';
+@import '../components/MovignSections/eventCollage/collage/styles.scss';
+@import '../components/MovignSections/eventCollage/intro/styles.scss';
+
+
+//Benefit Program Details
+@import '../components/MovignSections/BenefitDetails/styles.scss';
+@import '../components/MovignSections/BenefitDetails/graph/styles.scss';
+@import '../components/MovignSections/BenefitDetails/Intro/styles.scss';
+@import '../components/MovignSections/BenefitDetails/Rewards/styles.scss';
+@import '../components/MovignSections/BenefitDetails/Reviews/styles.scss';
+
+// benefit program showcase
+@import '../components/MovignSections/BenefitShowcase/style.scss';
+@import '../components/MovignSections/BenefitShowcase/content/style.scss';
+@import '../components/MovignSections/BenefitShowcase/dataBar/style.scss';
+@import '../components/MovignSections/BenefitShowcase/logobar/style.scss';
+
+//benefit reminder
+@import '../components/OtherAnims/BenefitReminder/styles.scss';
+
+//Main page components
+@import '../components/OtherAnims/StatBar/styles.scss';
+
+//Main section
+@import '../components/MovignSections/MainSection/styles.scss';
+@import '../components/MovignSections/MainSection/About/styles.scss';
+@import '../components/MovignSections/MainSection/Benefit/styles.scss';
+@import '../components/MovignSections/MainSection/Blog/styles.scss';
+@import '../components/MovignSections/MainSection/Contact/styles.scss';
+@import '../components/MovignSections/MainSection/Offer/styles.scss';
+@import '../components/MovignSections/MainSection/Offer/BecomeClient/styles.scss';
+@import '../components/MovignSections/MainSection/Offer/Benefits/styles.scss';
+@import '../components/MovignSections/MainSection/Offer/Intro/styles.scss';
+@import '../components/MovignSections/MainSection/Offer/OurDeal/styles.scss';
+@import '../components/MovignSections/MainSection/Offer/Quarentee/styles.scss';
+@import '../components/MovignSections/MainSection/Offer/Reality/styles.scss';
+@import '../components/MovignSections/MainSection/Offer/Requirements/styles.scss';
+@import '../components/MovignSections/MainSection/Offer/Testimonials/styles.scss';
+@import '../components/MovignSections/MainSection/Offer/TheWay/styles.scss';
+@import '../components/MovignSections/MainSection/Sales/styles.scss';
+
+
+
+
+
+
+
+
+
