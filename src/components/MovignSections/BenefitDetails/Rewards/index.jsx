@@ -110,50 +110,65 @@ export default function BenefitRewards() {
         target: sectionScroll,
     });
 
-    // Create peak points array
-    const peakPoints = Array.from({ length: points }, (_, i) => {
+    // Create peak points array without .map()
+    const peakPoints = [];
+    for (let i = 0; i < points; i++) {
         const segmentStart = i / points;
-        return segmentStart + (1 / (points * 2));
-    });
+        peakPoints.push(segmentStart + (1 / (points * 2)));
+    }
 
-    // Create image opacity transforms array
-    const imageOpacities = Array.from({ length: points }, (_, i) => {
+    // Create image opacity transforms array without .map()
+    const imageOpacities = [];
+    for (let i = 0; i < points; i++) {
         const peakPoint = peakPoints[i];
         const transitionRange = 0.6 / points;
         const input = [peakPoint - transitionRange, peakPoint, peakPoint + transitionRange];
         
         if (i === 0) {
-            return useTransform(scrollYProgress, input, [1, 1, 0], { clamp: true });
+            imageOpacities.push(useTransform(scrollYProgress, input, [1, 1, 0], { clamp: true }));
+        } else if (i === points - 1) {
+            imageOpacities.push(useTransform(scrollYProgress, input, [0, 1, 1], { clamp: true }));
+        } else {
+            imageOpacities.push(useTransform(scrollYProgress, input, [0, 1, 0], { clamp: true }));
         }
-        if (i === points - 1) {
-            return useTransform(scrollYProgress, input, [0, 1, 1], { clamp: true });
-        }
-        return useTransform(scrollYProgress, input, [0, 1, 0], { clamp: true });
-    });
+    }
 
-    // Create circle progress transforms array
-    const circleProgress = Array.from({ length: points }, (_, i) => {
+    // Create circle progress transforms array without .map()
+    const circleProgress = [];
+    for (let i = 0; i < points; i++) {
         const peakPoint = peakPoints[i];
         const transitionRange = 0.1 / points;
-        return useTransform(
-            scrollYProgress,
-            [peakPoint - transitionRange, peakPoint],
-            i === 0 ? [1, 1] : [0, 1],
-            { clamp: true }
-        );
-    });
+        
+        if (i === 0) {
+            circleProgress.push(useTransform(
+                scrollYProgress,
+                [peakPoint - transitionRange, peakPoint],
+                [1, 1],
+                { clamp: true }
+            ));
+        } else {
+            circleProgress.push(useTransform(
+                scrollYProgress,
+                [peakPoint - transitionRange, peakPoint],
+                [0, 1],
+                { clamp: true }
+            ));
+        }
+    }
 
-    // Create segment progress transforms array
-    const segmentProgress = Array.from({ length: points }, (_, i) => {
+    // Create segment progress transforms array without .map()
+    const segmentProgress = [];
+    for (let i = 0; i < points; i++) {
         const peakPoint = peakPoints[i];
         const transitionRange = 1 / points;
-        return useTransform(
+        
+        segmentProgress.push(useTransform(
             scrollYProgress,
             [peakPoint, peakPoint + (i === points - 1 ? transitionRange / 2 : transitionRange)],
             ['100%', '0%'],
             { clamp: true }
-        );
-    });
+        ));
+    }
     // Enhanced snap detection and animation
     useEffect(() => {
         const element = sectionScroll.current;
@@ -166,18 +181,20 @@ export default function BenefitRewards() {
                 const [entry] = entries;
                 isVisible = entry.isIntersecting;
             },
-            { threshold: 0.125 }
+            { 
+                threshold: 0.125
+            }
         );
+        
 
         const handleScroll = () => {
             if (!isVisible || isSnapping.current) return;
+            console.log('scrolling');
             
             clearTimeout(scrollTimeout.current);
             scrollTimeout.current = setTimeout(() => {
-                const currentScroll = window.pageYOffset;
-                const sectionHeight = element.offsetHeight;
-                const sectionTop = element.offsetTop;
-                const sectionScrollProgress = (currentScroll - sectionTop) / (sectionHeight - window.innerHeight);
+                const rect = element.getBoundingClientRect();
+                const sectionScrollProgress = -rect.top / (rect.height - window.innerHeight);
                 
                 // Find closest peak point
                 let closestPeak = peakPoints[0];
@@ -198,7 +215,7 @@ export default function BenefitRewards() {
                     isSnapping.current = true;
                     setActiveIndex(closestIndex);
     
-                    const targetScroll = sectionTop + (closestPeak * (sectionHeight - window.innerHeight));
+                    const targetScroll = window.scrollY + (closestPeak - sectionScrollProgress) * (rect.height - window.innerHeight);
     
                     animate(window.scrollY, targetScroll, {
                         type: "spring",
@@ -206,10 +223,19 @@ export default function BenefitRewards() {
                         damping: 40,
                         mass: 0.5,
                         bounce: 0,
+                        velocity: 0,
                         onComplete: () => {
                             isSnapping.current = false;
                         },
-                        onUpdate: (value) => window.scrollTo(0, value)
+                        onUpdate: (value) => {
+                            // Use smooth scroll behavior
+                            window.scrollTo({
+                                top: value,
+                                behavior: 'auto' // 'auto' is better here since animate() already handles the smoothing
+                            });
+                        },
+                        // Add velocity for smoother start
+                        velocity: scrollYProgress.getVelocity(),
                     });
                 }
             }, 50);

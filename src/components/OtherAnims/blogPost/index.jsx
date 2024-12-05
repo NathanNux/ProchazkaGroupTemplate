@@ -517,80 +517,83 @@ function ContentMap({ handleCircleClick }) {
     );
   }
 
-  function BlogContent() {
+function BlogContent () {
     const sectionRef = useRef(null);
     const contentWrapperRefs = useRef([]);
-    const [isHovered, setIsHovered] = useState(false);
+    const [ isHovered, setIsHovered ] = useState(false)
     const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ['start start', 'end start']
+      target: sectionRef,
+      offset: ['start start', 'end start']
     });
     const points = BlogPostData.length;
 
-    // Handle circle click function
-    const handleCircleClick = (index) => {
-        const targetElement = contentWrapperRefs.current[index];
-        if (targetElement) {
-            if (window.lenis) {
-                window.lenis.scrollTo(targetElement, {
-                    offset: 0,
-                    immediate: false,
-                    duration: 1,
-                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
-                });
-            } else {
-                targetElement.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-    };
+  const handleCircleClick = (index) => {
+    const targetElement = contentWrapperRefs.current[index];
+    if (targetElement) {
+      if (window.lenis) {
+        // If using Lenis smooth scroll
+        window.lenis.scrollTo(targetElement, {
+          offset: 0,
+          immediate: false,
+          duration: 1,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+        });
+      } else {
+        // Fallback to native smooth scroll
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
-    // Create peak points array without callback
-    const peakPoints = new Array(points).fill(null).map((_, i) => {
-        const segmentStart = i / points;
-        return segmentStart;
-    });
+  const peakPoints = BlogPostData.map((_, i) => {
+    const segmentStart = i / points;
 
-    // Table content transform
-    const tablecontnent = useTransform(
+    return segmentStart;
+  });
+
+  const tablecontnent = useTransform(
+    scrollYProgress,
+    [ 0, 0.05, 0.9, 0.95, 1 ],
+    [ 0, 1, 1, 0, 0]
+  )
+
+  const tableContentVariants = {
+    hidden: { x: "-25vw" },
+    visible: { x: "-5vw" }
+  };
+
+  const circleProgress = BlogPostData.map((_, i) => {
+    const peakPoint = peakPoints[i];
+    const transitionRange = 0.05 / points;
+
+    if (i === 0) {
+      return useTransform(
         scrollYProgress,
-        [0, 0.05, 0.9, 0.95, 1],
-        [0, 1, 1, 0, 0]
+        [peakPoint - transitionRange, peakPoint],
+        [1, 1],
+        { clamp: true }
+      );
+    }
+
+    return useTransform(
+      scrollYProgress,
+      [peakPoint - transitionRange, peakPoint],
+      [0, 1],
+      { clamp: true }
     );
+  });
 
-    // Circle progress transforms array without callbacks
-    const circleProgress = new Array(points).fill(null).map((_, i) => {
-        const peakPoint = peakPoints[i];
-        const transitionRange = 0.05 / points;
+  const segmentProgress = BlogPostData.map((_, i) => {
+    const peakPoint = peakPoints[i];
+    const transitionRange = 0.9 / points;
 
-        if (i === 0) {
-            return useTransform(
-                scrollYProgress,
-                [peakPoint - transitionRange, peakPoint],
-                [1, 1],
-                { clamp: true }
-            );
-        }
-
-        return useTransform(
-            scrollYProgress,
-            [peakPoint - transitionRange, peakPoint],
-            [0, 1],
-            { clamp: true }
-        );
-    });
-
-    // Segment progress transforms array without callbacks
-    const segmentProgress = new Array(points).fill(null).map((_, i) => {
-        const peakPoint = peakPoints[i];
-        const transitionRange = 0.9 / points;
-
-        return useTransform(
-            scrollYProgress,
-            [peakPoint, peakPoint + transitionRange],
-            ['-100%', '0%'],
-            { clamp: true }
-        );
-    });
+    return useTransform(
+      scrollYProgress,
+      [peakPoint, peakPoint + transitionRange],
+      ['-100%', '0%'],
+      { clamp: true }
+    );
+  });
   
 
     return (
