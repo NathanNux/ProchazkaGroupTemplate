@@ -112,47 +112,50 @@ export default function Collage() {
     for (let i = 0; i < events.length; i += 2) {
         eventPairs.push([
             events[i],
-            events[i + 1] || null // Handle odd number of events
+            events[i + 1] || null
         ]);
     }
 
-    const peakPoints = events.map((_, i) => {
+    // Create peak points array without callback
+    const peakPoints = new Array(events.length).fill(null).map((_, i) => {
         const segmentStart = i / points;
         return segmentStart;
     });
 
-  const circleProgress = events.map((_, i) => {
-    const peakPoint = peakPoints[i];
-    const transitionRange = 0.05 / points;
+    // Create circle progress transforms array without callbacks
+    const circleProgress = new Array(events.length).fill(null).map((_, i) => {
+        const peakPoint = peakPoints[i];
+        const transitionRange = 0.05 / points;
 
-    if (i === 0) {
-      return useTransform(
-        scrollYProgress,
-        [peakPoint - transitionRange, peakPoint],
-        [1, 1],
-        { clamp: true }
-      );
-    }
+        if (i === 0) {
+            return useTransform(
+                scrollYProgress,
+                [peakPoint - transitionRange, peakPoint],
+                [1, 1],
+                { clamp: true }
+            );
+        }
 
-    return useTransform(
-      scrollYProgress,
-      [peakPoint - transitionRange, peakPoint],
-      [0, 1],
-      { clamp: true }
-    );
-  });
+        return useTransform(
+            scrollYProgress,
+            [peakPoint - transitionRange, peakPoint],
+            [0, 1],
+            { clamp: true }
+        );
+    });
 
-  const segmentProgress = events.map((_, i) => {
-    const peakPoint = peakPoints[i];
-    const transitionRange = 0.9 / points;
+    // Create segment progress transforms array without callbacks
+    const segmentProgress = new Array(events.length).fill(null).map((_, i) => {
+        const peakPoint = peakPoints[i];
+        const transitionRange = 0.9 / points;
 
-    return useTransform(
-      scrollYProgress,
-      [peakPoint, peakPoint + transitionRange],
-      ['-100%', '0%'],
-      { clamp: true }
-    );
-  });
+        return useTransform(
+            scrollYProgress,
+            [peakPoint, peakPoint + transitionRange],
+            ['-100%', '0%'],
+            { clamp: true }
+        );
+    });
     return (
         <section className="Collage" ref={sectionRef}>
             <div className="ProgressBar__container__wrapper">

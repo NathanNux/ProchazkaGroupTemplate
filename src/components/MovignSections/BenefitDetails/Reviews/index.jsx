@@ -114,14 +114,6 @@ export default function Reviews() {
         [0, 1]
     );
 
-    // Debug scroll progress
-    useEffect(() => {
-        const unsubscribe = scrollYProgress.on("change", (latest) => {
-            console.log('Scroll Progress:', latest.toFixed(3));
-        });
-
-        return () => unsubscribe();
-    }, [scrollYProgress]);
     // Optimize batch transition variants
     const containerVariants = {
         enter: {
@@ -199,7 +191,7 @@ export default function Reviews() {
                         {cards.map(( card, i) => {
                             const { number, content} = card
                             return(
-                                <div className="card">
+                                <div className="card" key={i}>
                                     <h3>{number}</h3>
                                     <p>{content}</p>
                                 </div>

@@ -1,6 +1,5 @@
 import { useScroll, motion, useTransform } from "framer-motion";
-import Lenis from "lenis";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 const paragraphs = [
     {
@@ -35,42 +34,37 @@ export default function BlogProgress() {
     });
     const points = paragraphs.length;
 
-
     const handleCircleClick = (index) => {
         const targetElement = paragraphRefs.current[index];
         if (targetElement) {
-          if (window.lenis) {
-            window.lenis.scrollTo(targetElement, {
-              offset: 0,
-              immediate: false,
-              duration: 0.3,
-              easing: (t) => t,
-            });
-          } else {
-            targetElement.scrollIntoView({ behavior: 'smooth' });
-          }
+            if (window.lenis) {
+                window.lenis.scrollTo(targetElement, {
+                    offset: 0,
+                    immediate: false,
+                    duration: 0.3,
+                    easing: (t) => t,
+                });
+            } else {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
         }
     };
-    
 
-    const peakPoints = paragraphs.map((_, i) => {
+    // Create peak points array without callback
+    const peakPoints = new Array(points).fill(null).map((_, i) => {
         const segmentStart = i / points;
-        const segmentCenter = segmentStart + (1 / (points * 2)); // Center of each segment
-        return segmentCenter;
+        return segmentStart + (1 / (points * 2));
     });
 
-
-    const circleProgress = paragraphs.map((_, i) => {
+    // Create circle progress transforms array without callbacks
+    const circleProgress = new Array(points).fill(null).map((_, i) => {
         const peakPoint = peakPoints[i];
         const transitionRange = 0.1 / points;
 
         if (i === 0) {
             return useTransform(
                 scrollYProgress,
-                [
-                    peakPoint - transitionRange,
-                    peakPoint,
-                ],
+                [peakPoint - transitionRange, peakPoint],
                 [1, 1],
                 { clamp: true }
             );
@@ -78,25 +72,23 @@ export default function BlogProgress() {
 
         return useTransform(
             scrollYProgress,
-            [
-                peakPoint - transitionRange,
-                peakPoint,
-            ],
+            [peakPoint - transitionRange, peakPoint],
             [0, 1],
             { clamp: true }
         );
     });
 
-    const segmentProgress = paragraphs.map((_, i) => {
-      const peakPoint = peakPoints[i];
-      const transitionRange = 0.1 / points;
-    
-      return useTransform(
-        scrollYProgress,
-        [peakPoint, peakPoint + transitionRange],
-        ['-100%', '0%'],
-        { clamp: true }
-      );
+    // Create segment progress transforms array without callbacks
+    const segmentProgress = new Array(points).fill(null).map((_, i) => {
+        const peakPoint = peakPoints[i];
+        const transitionRange = 0.1 / points;
+
+        return useTransform(
+            scrollYProgress,
+            [peakPoint, peakPoint + transitionRange],
+            ['-100%', '0%'],
+            { clamp: true }
+        );
     });
     return (
         <section className="Blog__MainPage" ref={sectionRef}>

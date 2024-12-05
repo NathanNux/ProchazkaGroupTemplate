@@ -123,7 +123,7 @@ export default function ContactBenefit() {
                             const { name, likes, reviews, moto, src, alt } = person
 
                             return (
-                                <div className="Contact__Personal__choice__wrapper">
+                                <div className="Contact__Personal__choice__wrapper" key={i}>
                                     <div className="Contact__Personal__choice__image__container" key={i} style={{ zIndex: 1 + i}}>
                                         <AnimatePresence mode="wait">
                                             <motion.div 
@@ -136,8 +136,7 @@ export default function ContactBenefit() {
                                             >
                                                 <Image src={people[activeIndex].src} alt={people[activeIndex].alt} fill={true}/>
                                             </motion.div>
-                                            </AnimatePresence>
-                                            
+                                        </AnimatePresence>
                                     </div>
                                     <div className="Contact__Personal__choice__Data__container">
                                         <AnimatePresence mode="wait">

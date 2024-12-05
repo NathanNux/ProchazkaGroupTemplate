@@ -81,73 +81,57 @@ export default function AboutTeam() {
     const segment = totalScrollHeight / points;
     const scrollTimeout = useRef(null);
     const isSnapping = useRef(false);
-
-    // Calculate peak opacity points for each image (where opacity = 1)
-    const peakPoints = people.map((_, i) => {
-        const segmentStart = i / points;
-        const segmentCenter = segmentStart + (1 / (points * 2)); // Center of each segment
-        return segmentCenter;
-    });
-
+    
     const { scrollYProgress } = useScroll({
         target: sectionScroll,
     });
 
-    // Enhanced image opacity transforms with sharper transitions
-    const imageOpacities = people.map((_, i) => {
+    // Create peak points array without callback
+    const peakPoints = new Array(points).fill(null).map((_, i) => {
+        const segmentStart = i / points;
+        return segmentStart + (1 / (points * 2));
+    });
+
+    // Create image opacity transforms array without callbacks
+    const imageOpacities = new Array(points).fill(null).map((_, i) => {
         const segmentStart = i / points;
         const segmentEnd = (i + 1) / points;
         const peakPoint = peakPoints[i];
-        const transitionRange = 0.6 / points; // Shorter transition for sharper effect
+        const transitionRange = 0.6 / points;
 
-        if ( i === 0) {
+        if (i === 0) {
             return useTransform(
                 scrollYProgress,
-                [
-                    peakPoint - transitionRange, // Start fade in
-                    peakPoint, // Peak opacity
-                    peakPoint + transitionRange, // Start fade out
-                ],
+                [peakPoint - transitionRange, peakPoint, peakPoint + transitionRange],
                 [1, 1, 0],
                 { clamp: true }
             );
         }
-        if ( i === 7) {
+        if (i === points - 1) {
             return useTransform(
                 scrollYProgress,
-                [
-                    peakPoint - transitionRange, // Start fade in
-                    peakPoint, // Peak opacity
-                    peakPoint + transitionRange, // Start fade out
-                ],
+                [peakPoint - transitionRange, peakPoint, peakPoint + transitionRange],
                 [0, 1, 1],
                 { clamp: true }
             );
         }
         return useTransform(
             scrollYProgress,
-            [
-                peakPoint - transitionRange, // Start fade in
-                peakPoint, // Peak opacity
-                peakPoint + transitionRange, // Start fade out
-            ],
+            [peakPoint - transitionRange, peakPoint, peakPoint + transitionRange],
             [0, 1, 0],
             { clamp: true }
         );
     });
-    // Circle and segment progress animations (adjusted to align with image peaks)
-    const circleProgress = people.map((_, i) => {
+
+    // Circle progress transforms array without callbacks
+    const circleProgress = new Array(points).fill(null).map((_, i) => {
         const peakPoint = peakPoints[i];
         const transitionRange = 0.1 / points;
-
 
         if (i === 0) {
             return useTransform(
                 scrollYProgress,
-                [
-                    peakPoint - transitionRange,
-                    peakPoint,
-                ],
+                [peakPoint - transitionRange, peakPoint],
                 [1, 1],
                 { clamp: true }
             );
@@ -155,26 +139,21 @@ export default function AboutTeam() {
 
         return useTransform(
             scrollYProgress,
-            [
-                peakPoint - transitionRange,
-                peakPoint,
-            ],
+            [peakPoint - transitionRange, peakPoint],
             [0, 1],
             { clamp: true }
         );
     });
 
-    const segmentProgress = people.map((_, i) => {
+    // Segment progress transforms array without callbacks
+    const segmentProgress = new Array(points).fill(null).map((_, i) => {
         const peakPoint = peakPoints[i];
         const transitionRange = 1 / points;
 
-        if (i === 7) {
+        if (i === points - 1) {
             return useTransform(
                 scrollYProgress,
-                [
-                    peakPoint,
-                    peakPoint + (transitionRange / 2),
-                ],
+                [peakPoint, peakPoint + (transitionRange / 2)],
                 ['100%', '0%'],
                 { clamp: true }
             );
@@ -182,10 +161,7 @@ export default function AboutTeam() {
 
         return useTransform(
             scrollYProgress,
-            [
-                peakPoint,
-                peakPoint + transitionRange,
-            ],
+            [peakPoint, peakPoint + transitionRange],
             ['100%', '0%'],
             { clamp: true }
         );

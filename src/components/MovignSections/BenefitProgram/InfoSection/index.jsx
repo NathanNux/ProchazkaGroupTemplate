@@ -1,6 +1,6 @@
-import { useScroll, motion, useTransform, useMotionValueEvent } from "framer-motion"
+import { motion, useTransform, useMotionValueEvent } from "framer-motion"
 import Image from "next/image";
-import { forwardRef, useEffect, useRef } from "react";
+import { forwardRef,} from "react";
 
 const InfoBenefitS = forwardRef(({scroll}, ref,) => {
 
