@@ -12,8 +12,8 @@ export default function MainPageSection() {
             <About />
             <Blog />
             <Sales />
-            {/* <Offer />
-            <Contact /> */}
+            <Offer />
+            {/* <Contact /> */}
         </section>
     )
 }
