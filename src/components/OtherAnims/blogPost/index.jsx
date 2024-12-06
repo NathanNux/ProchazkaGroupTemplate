@@ -647,19 +647,19 @@ function BlogContent () {
                         <div className="Blog__MainPage__progressBar">
                             <div className="Blog__MainPage__progressBar_div">
                                 {BlogPostData.map((_, index) => {
-                                const isLastItem = index === BlogPostData.length - 1;
-                                return (
-                                    <div className="Blog__MainPage__progressBar__Container" key={index}>
-                                    <div className="circle" onClick={() => handleCircleClick(index)}>
-                                        <motion.div className="circle__inner" style={{ scale: circleProgress[index] }}></motion.div>
-                                    </div>
-                                    {!isLastItem && (
-                                        <div className="segment">
-                                        <motion.div className="segment__inner" style={{ y: segmentProgress[index] }}></motion.div>
-                                        </div>
-                                    )}
-                                    </div>
-                                );
+                                  const isLastItem = index === BlogPostData.length - 1;
+                                  return (
+                                      <div className="Blog__MainPage__progressBar__Container" key={index}>
+                                      <div className="circle" onClick={() => handleCircleClick(index)}>
+                                          <motion.div className="circle__inner" style={{ scale: circleProgress[index] }}></motion.div>
+                                      </div>
+                                      {!isLastItem && (
+                                          <div className="segment">
+                                          <motion.div className="segment__inner" style={{ y: segmentProgress[index] }}></motion.div>
+                                          </div>
+                                      )}
+                                      </div>
+                                  );
                                 })}
                             </div>
                         </div>

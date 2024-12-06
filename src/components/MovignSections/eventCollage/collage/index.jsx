@@ -1,64 +1,7 @@
 import CustomImage from "@/components/Sticky/images";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
-const events = [
-    {
-        name: 'Annual Company Meeting',
-        time: '2023-11-15',
-        photo: '/assets/reviewsBackground.png',
-        alt: 'Annual Company Meeting',
-        text: 'Join us for the annual company meeting where we discuss the achievements of the past year and plans for the future.'
-    },
-    {
-        name: 'Team Building Retreat',
-        time: '2023-12-05',
-        photo: '/assets/reviewsBackground.png',
-        alt: 'Team Building Retreat',
-        text: 'A weekend retreat focused on team-building activities to strengthen collaboration and communication among team members.'
-    },
-    {
-        name: 'Product Launch Event',
-        time: '2024-01-20',
-        photo: '/assets/reviewsBackground.png',
-        alt: 'Product Launch Event',
-        text: 'Be the first to see our new product line at the official launch event. Exciting presentations and demos await!'
-    },
-    {
-        name: 'Quarterly Financial Review',
-        time: '2024-02-10',
-        photo: '/assets/reviewsBackground.png',
-        alt: 'Quarterly Financial Review',
-        text: 'An in-depth review of the company’s financial performance over the last quarter, followed by a Q&A session.'
-    },
-    {
-        name: 'Team Building Workshop',
-        time: '2024-03-15',
-        photo: '/assets/reviewsBackground.png',
-        alt: 'Team Building Workshop',
-        text: 'Interactive workshops designed to enhance team dynamics and problem-solving skills through fun and engaging activities.'
-    },
-    {
-        name: 'Customer Appreciation Day',
-        time: '2024-04-25',
-        photo: '/assets/reviewsBackground.png',
-        alt: 'Customer Appreciation Day',
-        text: 'A special event to thank our loyal customers with exclusive offers, giveaways, and a chance to meet the team.'
-    },
-    {
-        name: 'Leadership Training Program',
-        time: '2024-05-10',
-        photo: '/assets/reviewsBackground.png',
-        alt: 'Leadership Training Program',
-        text: 'A comprehensive training program aimed at developing leadership skills among our employees.'
-    },
-    {
-        name: 'Summer Picnic',
-        time: '2024-06-20',
-        photo: '/assets/reviewsBackground.png',
-        alt: 'Summer Picnic',
-        text: 'A fun-filled day at the park with games, food, and activities for employees and their families.'
-    }
-]
+import { useMemo, useRef } from "react";
+
 
 // Add these animation variants
 const containerVariants = {
@@ -101,12 +44,105 @@ const oddItemVariants = {
 };
 
 export default function Collage() {
-    const points = events.length / 2;
+    const points = 4;
     const sectionRef = useRef(null);
     const { scrollYProgress } = useScroll({
       target: sectionRef,
       offset: ['start start', 'end start']
     });
+
+     // Adjust peak points calculation
+     const peakPoints = useMemo(() => (
+        Array.from({ length: points }, (_, i) => (i / points) + (1 / (points * 4)))
+    ), [points]);
+
+    // Circle anims - start earlier
+    const circleProgress0 = useTransform(scrollYProgress, [0, peakPoints[0] - 0.1], [1, 1], { clamp: true });
+    const circleProgress1 = useTransform(scrollYProgress, [peakPoints[1] - 0.15, peakPoints[1] - 0.1], [0, 1], { clamp: true });
+    const circleProgress2 = useTransform(scrollYProgress, [peakPoints[2] - 0.15, peakPoints[2] - 0.1], [0, 1], { clamp: true });
+    const circleProgress3 = useTransform(scrollYProgress, [peakPoints[3] - 0.15, peakPoints[3] - 0.1], [0, 1], { clamp: true });
+
+    // Segments anims
+    const segmentProgress0 = useTransform(scrollYProgress, [peakPoints[0] - 0.1, peakPoints[1] - 0.15], ['100%', '0%'], { clamp: true });
+    const segmentProgress1 = useTransform(scrollYProgress, [peakPoints[1] - 0.15, peakPoints[2] - 0.15], ['100%', '0%'], { clamp: true });
+    const segmentProgress2 = useTransform(scrollYProgress, [peakPoints[2] - 0.15, peakPoints[3] - 0.15], ['100%', '0%'], { clamp: true });
+    const segmentProgress3 = useTransform(scrollYProgress, [peakPoints[3] - 0.15, 1 - 0.15], ['100%', '0%'], { clamp: true });
+
+    const events = [
+        {
+            name: 'Annual Company Meeting',
+            time: '2023-11-15',
+            photo: '/assets/reviewsBackground.png',
+            alt: 'Annual Company Meeting',
+            text: 'Join us for the annual company meeting where we discuss the achievements of the past year and plans for the future.',
+            circleAnim: circleProgress0,
+            segmentAnim: segmentProgress0
+        },
+        {
+            name: 'Team Building Retreat',
+            time: '2023-12-05',
+            photo: '/assets/reviewsBackground.png',
+            alt: 'Team Building Retreat',
+            text: 'A weekend retreat focused on team-building activities to strengthen collaboration and communication among team members.',
+            circleAnim: circleProgress0,
+            segmentAnim: segmentProgress0
+        },
+        {
+            name: 'Product Launch Event',
+            time: '2024-01-20',
+            photo: '/assets/reviewsBackground.png',
+            alt: 'Product Launch Event',
+            text: 'Be the first to see our new product line at the official launch event. Exciting presentations and demos await!',
+            circleAnim: circleProgress1,
+            segmentAnim: segmentProgress1
+        },
+        {
+            name: 'Quarterly Financial Review',
+            time: '2024-02-10',
+            photo: '/assets/reviewsBackground.png',
+            alt: 'Quarterly Financial Review',
+            text: 'An in-depth review of the company’s financial performance over the last quarter, followed by a Q&A session.',
+            circleAnim: circleProgress1,
+            segmentAnim: segmentProgress1
+        },
+        {
+            name: 'Team Building Workshop',
+            time: '2024-03-15',
+            photo: '/assets/reviewsBackground.png',
+            alt: 'Team Building Workshop',
+            text: 'Interactive workshops designed to enhance team dynamics and problem-solving skills through fun and engaging activities.',
+            circleAnim: circleProgress2,
+            segmentAnim: segmentProgress2
+        },
+        {
+            name: 'Customer Appreciation Day',
+            time: '2024-04-25',
+            photo: '/assets/reviewsBackground.png',
+            alt: 'Customer Appreciation Day',
+            text: 'A special event to thank our loyal customers with exclusive offers, giveaways, and a chance to meet the team.',
+            circleAnim: circleProgress2,
+            segmentAnim: segmentProgress2
+        },
+        {
+            name: 'Leadership Training Program',
+            time: '2024-05-10',
+            photo: '/assets/reviewsBackground.png',
+            alt: 'Leadership Training Program',
+            text: 'A comprehensive training program aimed at developing leadership skills among our employees.',
+            circleAnim: circleProgress3,
+            segmentAnim: segmentProgress3
+        },
+        {
+            name: 'Summer Picnic',
+            time: '2024-06-20',
+            photo: '/assets/reviewsBackground.png',
+            alt: 'Summer Picnic',
+            text: 'A fun-filled day at the park with games, food, and activities for employees and their families.',
+            circleAnim: circleProgress3,
+            segmentAnim: segmentProgress3
+        }
+    ]
+
 
     const eventPairs = [];
     for (let i = 0; i < events.length; i += 2) {
@@ -115,67 +151,26 @@ export default function Collage() {
             events[i + 1] || null
         ]);
     }
-
-    // Create peak points array without callback
-    const peakPoints = new Array(events.length).fill(null).map((_, i) => {
-        const segmentStart = i / points;
-        return segmentStart;
-    });
-
-    // Create circle progress transforms array without callbacks
-    const circleProgress = new Array(events.length).fill(null).map((_, i) => {
-        const peakPoint = peakPoints[i];
-        const transitionRange = 0.05 / points;
-
-        if (i === 0) {
-            return useTransform(
-                scrollYProgress,
-                [peakPoint - transitionRange, peakPoint],
-                [1, 1],
-                { clamp: true }
-            );
-        }
-
-        return useTransform(
-            scrollYProgress,
-            [peakPoint - transitionRange, peakPoint],
-            [0, 1],
-            { clamp: true }
-        );
-    });
-
-    // Create segment progress transforms array without callbacks
-    const segmentProgress = new Array(events.length).fill(null).map((_, i) => {
-        const peakPoint = peakPoints[i];
-        const transitionRange = 0.9 / points;
-
-        return useTransform(
-            scrollYProgress,
-            [peakPoint, peakPoint + transitionRange],
-            ['-100%', '0%'],
-            { clamp: true }
-        );
-    });
     return (
         <section className="Collage" ref={sectionRef}>
             <div className="ProgressBar__container__wrapper">
                     <div className='ProgressBar__container'>
                         <div className="Collage__progressBar">
                             <div className="Collage__progressBar_div">
-                                {eventPairs.map((_, index) => {
-                                const isLastItem = index === events.length - 1;
-                                return (
-                                    <div className="Collage__progressBar__Container" key={index}>
-                                    <div className="circle" >
-                                        <motion.div className="circle__inner" style={{ scale: circleProgress[index] }}></motion.div>
-                                    </div>
-                                    {!isLastItem && (
-                                        <div className="segment">
-                                        <motion.div className="segment__inner" style={{ y: segmentProgress[index] }}></motion.div>
+                                {[circleProgress0, circleProgress1, circleProgress2, circleProgress3].map((circleAnim, index) => {
+                                    const isLastItem = index === 3;
+                                    return (
+                                        <div className="Collage__progressBar__Container" key={index}>
+                                            <div className="circle">
+                                                <motion.div className="circle__inner" style={{ scale: circleAnim }}></motion.div>
+                                            </div>
+                                            {!isLastItem && (
+                                                <div className="segment">
+                                                    <motion.div className="segment__inner" style={{ y: [segmentProgress0, segmentProgress1, segmentProgress2, segmentProgress3][index] }}></motion.div>
+                                                </div>
+                                            )}
                                         </div>
-                                    )}
-                                    </div>
-                                );
+                                    );
                                 })}
                             </div>
                         </div>
