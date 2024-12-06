@@ -97,6 +97,34 @@ const people = [
     },
 ]
 
+// Custom hooks for transforms
+const useImageOpacity = (scrollYProgress, input, index, totalPoints) => {
+    return useTransform(
+      scrollYProgress,
+      input,
+      index === 0 ? [1, 1, 0] : index === totalPoints - 1 ? [0, 1, 1] : [0, 1, 0],
+      { clamp: true }
+    );
+  };
+  
+  const useCircleProgress = (scrollYProgress, input, index) => {
+    return useTransform(
+      scrollYProgress,
+      input,
+      index === 0 ? [1, 1] : [0, 1],
+      { clamp: true }
+    );
+  };
+  
+  const useSegmentProgress = (scrollYProgress, input) => {
+    return useTransform(
+      scrollYProgress,
+      input,
+      ['100%', '0%'],
+      { clamp: true }
+    );
+  };
+
 export default function BenefitRewards() {
     const points = useMemo(() => people.length, []);
     const sectionScroll = useRef(null);
@@ -109,60 +137,44 @@ export default function BenefitRewards() {
         target: sectionScroll,
     });
 
-    // Calculate peak points with useMemo
-    const peakPoints = useMemo(() => (
-        Array.from({ length: points }, (_, i) => (i / points) + (1 / (points * 2)))
-    ), [points]);
-    
+  // Calculate peak points outside of useMemo
+  const peakPoints = useMemo(() => 
+    Array.from({ length: points }, (_, i) => (i / points) + (1 / (points * 2))),
+    [points]
+);
 
-    // Helper functions
-    const getOpacityInputs = useCallback((index) => {
-        const peakPoint = (index / points) + (1 / (points * 2));
-        return [peakPoint - 0.6/points, peakPoint, peakPoint + 0.6/points];
-    }, [points]);
+// Calculate input arrays
+const { opacityInputs, circleInputs, segmentInputs } = useMemo(() => {
+    const opacityInputs = peakPoints.map(pp => [pp - 0.6/points, pp, pp + 0.6/points]);
+    const circleInputs = peakPoints.map(pp => [pp - 0.1/points, pp]);
+    const segmentInputs = peakPoints.map((pp, i) => [pp, pp + (i === points - 1 ? 0.5/points : 1/points)]);
+    return { opacityInputs, circleInputs, segmentInputs };
+}, [peakPoints, points]);
 
-    const getCircleInputs = useCallback((index) => {
-        const peakPoint = (index / points) + (1 / (points * 2));
-        return [peakPoint - 0.1/points, peakPoint];
-    }, [points]);
-
-    const getSegmentInputs = useCallback((index) => {
-        const peakPoint = (index / points) + (1 / (points * 2));
-        return [peakPoint, peakPoint + (index === points - 1 ? 0.5/points : 1/points)];
-    }, [points]);
-
-    // Memoize input arrays
-    const opacityInputs = useMemo(() => Array.from({ length: points }, (_, i) => getOpacityInputs(i)), [points, getOpacityInputs]);
-    const circleInputs = useMemo(() => Array.from({ length: points }, (_, i) => getCircleInputs(i)), [points, getCircleInputs]);
-    const segmentInputs = useMemo(() => Array.from({ length: points }, (_, i) => getSegmentInputs(i)), [points, getSegmentInputs]);
-
-    // Create transforms
-    const imageOpacities = [];
-    const circleProgress = [];
-    const segmentProgress = [];
-
+ // Create transforms without using .map()
+ const imageOpacities = useMemo(() => {
+    const opacities = [];
     for (let i = 0; i < points; i++) {
-        imageOpacities.push(useTransform(
-            scrollYProgress, 
-            opacityInputs[i], 
-            i === 0 ? [1, 1, 0] : i === points - 1 ? [0, 1, 1] : [0, 1, 0], 
-            { clamp: true }
-        ));
-
-        circleProgress.push(useTransform(
-            scrollYProgress, 
-            circleInputs[i], 
-            i === 0 ? [1, 1] : [0, 1], 
-            { clamp: true }
-        ));
-
-        segmentProgress.push(useTransform(
-            scrollYProgress, 
-            segmentInputs[i], 
-            ['100%', '0%'], 
-            { clamp: true }
-        ));
+      opacities.push(useImageOpacity(scrollYProgress, opacityInputs[i], i, points));
     }
+    return opacities;
+  }, [opacityInputs, scrollYProgress, points]);
+
+  const circleProgress = useMemo(() => {
+    const progress = [];
+    for (let i = 0; i < points; i++) {
+      progress.push(useCircleProgress(scrollYProgress, circleInputs[i], i));
+    }
+    return progress;
+  }, [circleInputs, scrollYProgress]);
+
+  const segmentProgress = useMemo(() => {
+    const progress = [];
+    for (let i = 0; i < points; i++) {
+      progress.push(useSegmentProgress(scrollYProgress, segmentInputs[i]));
+    }
+    return progress;
+  }, [segmentInputs, scrollYProgress]);
 
 
     // Scroll handling with useCallback
