@@ -76,7 +76,7 @@ const InfoBenefitS = forwardRef(function InfoBenefitS({ scroll }, ref) {
                                 <h2>DÁVÁME ZPĚT, ABYCHOM SPOLEČNĚ VYBUDOVALI VÍCE NEŽ JEN FINANČNÍ ÚSPĚCH</h2>
                                 <p>
                                     Proč to děláme: Už 12 let tvoříme hodnoty, ne jen zisky. Když s vámi
-                                    spolupracujeme, nejde o to, abychom &quot;dostali zaplaceno.&quot; Je to
+                                    spolupracujeme, nejde o to, abychom &#39;dostali zaplaceno.&#39; Je to
                                     o změně, kterou můžeme přinést. Vaše doporučení a příběhy pomáhají růst
                                     naší vizi a vytvářejí opravdový dopad — a my chceme, aby to bylo stejně
                                     přínosné pro vás jako pro nás.                                
@@ -108,7 +108,9 @@ const InfoBenefitS = forwardRef(function InfoBenefitS({ scroll }, ref) {
                                 }}
                             >
                                 <h2>VAŠE ÚSPĚCHY, NAŠE POSLÁNÍ - PŘÍBĚH, KTERÝ PÍŠEME SPOLU</h2>
-                                <p>Jak fungujeme: neplatíte nám nic předem. Naše 'odměna' není jen plan na konci měsíce, ale naše opravdová odměna je vaše důvěra a výsledky, které společně dosáhneme. Každé doporučení, každá úspěšná spolupráce posiluje naši misi měnit životy skrze finanční svobodu. Chceme, aby tahle spolupráce měla smysl.</p> 
+                                <p>
+                                  Jak fungujeme: neplatíte nám nic předem. Naše &#39;odměna&#39; není jen plan na konci měsíce, ale naše opravdová odměna je vaše důvěra a výsledky, které společně dosáhneme. Každé doporučení, každá úspěšná spolupráce posiluje naši misi měnit životy skrze finanční svobodu. Chceme, aby tahle spolupráce měla smysl.
+                                </p>                            
                             </motion.div>
                             <motion.div 
                                 className="InfoBenefitS__sticky__Content__div__content" 

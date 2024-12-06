@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import Magnetic from '../../Magnetic'
+import GetChars from './getChars'
 
 const links = [
     {
@@ -333,7 +334,14 @@ export default function NavbarBody({setMenu}) {
                 custom={index}
                 >
                 <Link href={href}>
-                    <motion.p>{getChars({ text, selectedLink, index, initialColor })}</motion.p>
+                    <motion.p>
+                        <GetChars
+                        text={text}
+                        selectedLink={selectedLink}
+                        index={index}
+                        initialColor={initialColor}
+                        />
+                    </motion.p>
                 </Link>
                 </motion.div>
             </Magnetic>
@@ -361,7 +369,14 @@ export default function NavbarBody({setMenu}) {
                     custom={newIndex}
                 >
                     <Link href={href}>
-                    <motion.p>{getChars({ text, selectedLink, index: newIndex, initialColor })}</motion.p>
+                        <motion.p>
+                            <GetChars
+                                text={text}
+                                selectedLink={selectedLink}
+                                index={newIndex}
+                                initialColor={initialColor}
+                            />
+                        </motion.p>
                     </Link>
                 </motion.div>
               </Magnetic>
@@ -389,7 +404,14 @@ export default function NavbarBody({setMenu}) {
                     custom={iconIndex}
                 >
                     <Link href={href}>
-                    <motion.p>{getChars({ text, selectedLink, index: iconIndex, initialColor })}</motion.p>
+                        <motion.p>
+                            <GetChars
+                                text={text}
+                                selectedLink={selectedLink}
+                                index={iconIndex}
+                                initialColor={initialColor}
+                            />
+                        </motion.p>
                     </Link>
                 </motion.div>
               </Magnetic>

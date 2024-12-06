@@ -1078,7 +1078,7 @@ function CommentsList() {
                     {data.map(( info, i) => {
                         const { time, data, src, alt } = info
                         return (
-                            <div className="stat">
+                            <div className="stat" key={i}>
                                 <p>{data}</p>
                                 {data && <Image src={src} alt={alt} width={50} height={50}/>}
                             </div>

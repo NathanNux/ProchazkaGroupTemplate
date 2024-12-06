@@ -21,6 +21,10 @@ const AnimatedWord = memo(({ char, rangeOpacity, rangeScaleColor, progress, isHi
         </motion.span>
     )
 })
+
+// Assign displayName to satisfy ESLint rule
+AnimatedWord.displayName = 'AnimatedWord';
+
 const getCharsWithBrAndSpans = ({ text, initialColor, progress }) => {
     const lines = text.split('<br />');
     let allChars = [];

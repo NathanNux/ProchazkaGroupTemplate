@@ -58,7 +58,13 @@ const RollingLogos = ({ text, baseVelocity = 100, childrenCount, Scroll }) => {
         <div className="Rolling_text_container">
             <motion.div style={{ x }}>
                 {Array.from({ length: childrenCount }, (_, index) => (
-                    <Image src='' alt='' width={200} height={200}/>
+                    <Image
+                        key={index} // Added key prop
+                        src=''
+                        alt=''
+                        width={200}
+                        height={200}
+                    />
                 ))}
             </motion.div>
         </div>
