@@ -37,9 +37,6 @@ const InfoBenefitS = forwardRef(({scroll}, ref,) => {
 
     )
 
-    useMotionValueEvent(scroll, "change", (latest) => {
-        console.log('scrollYProgress:', latest);
-    });
     return (
         <section className="InfoBenefitS" ref={ref}>
             <div className="InfoBenefitS__sticky">
