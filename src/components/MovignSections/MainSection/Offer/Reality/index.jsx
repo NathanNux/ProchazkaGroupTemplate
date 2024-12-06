@@ -79,7 +79,7 @@ export default function Reality() {
                 {dataR.map((data, i) => {
                     const { rate, text } = data
                     return(
-                        <div className="Text__wrapper">
+                        <div className="Text__wrapper" key={i}>
                             <div className="divider"/>
                             <h3>{rate}</h3>
                             <p>{text}</p>

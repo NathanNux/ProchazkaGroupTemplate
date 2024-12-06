@@ -43,7 +43,7 @@ export default function BlogPostIntro() {
                     {data.map((object, i) => {
                         const { data, time, src, alt} = object
                         return (
-                            <div className="Data__item">
+                            <div className="Data__item" key={i}>
                                 <h3>{data || time}</h3>
                                 <Image src={src} alt={alt} width={50} height={50}/>
                             </div>

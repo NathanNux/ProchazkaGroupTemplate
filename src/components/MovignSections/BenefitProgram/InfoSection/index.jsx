@@ -1,8 +1,8 @@
-import { motion, useTransform, useMotionValueEvent } from "framer-motion"
+import { motion, useTransform } from "framer-motion"
 import Image from "next/image";
 import { forwardRef,} from "react";
 
-const InfoBenefitS = forwardRef(({scroll}, ref,) => {
+const InfoBenefitS = forwardRef(function InfoBenefitS({ scroll }, ref) {
 
     const firstContent = useTransform(
         scroll,
@@ -57,7 +57,7 @@ const InfoBenefitS = forwardRef(({scroll}, ref,) => {
                         >
                             <div className="InfoBenefitS__sticky__Header__container__text">
                                 <h3>01</h3>
-                                <p>Přidejte se k revoluci – Měňte životy, zatímco měníte ten váš.</p>
+                                <p>Přidejte se k revoluci - Měňte životy, zatímco měníte ten váš.</p>
                             </div>
                             <div className="devider"/>
                         </motion.div>
@@ -75,7 +75,11 @@ const InfoBenefitS = forwardRef(({scroll}, ref,) => {
                             >
                                 <h2>DÁVÁME ZPĚT, ABYCHOM SPOLEČNĚ VYBUDOVALI VÍCE NEŽ JEN FINANČNÍ ÚSPĚCH</h2>
                                 <p>
-                                    Proč to děláme: Už 12 let tvoříme hodnoty, ne jen zisky. Když s vámi spolupracujeme, nejde o to, abychom "dostali zaplaceno." Je to o změně, kterou můžeme přinést. Vaše doporučení a příběhy pomáhají růst naší vizi a vytvářejí opravdový dopad — a my chceme, aby to bylo stejně přínosné pro vás jako pro nás.
+                                    Proč to děláme: Už 12 let tvoříme hodnoty, ne jen zisky. Když s vámi
+                                    spolupracujeme, nejde o to, abychom &quot;dostali zaplaceno.&quot; Je to
+                                    o změně, kterou můžeme přinést. Vaše doporučení a příběhy pomáhají růst
+                                    naší vizi a vytvářejí opravdový dopad — a my chceme, aby to bylo stejně
+                                    přínosné pro vás jako pro nás.                                
                                 </p> 
                             </motion.div>
                             <motion.div 
@@ -103,8 +107,8 @@ const InfoBenefitS = forwardRef(({scroll}, ref,) => {
                                     delay: 0.5
                                 }}
                             >
-                                <h2>VAŠE ÚSPĚCHY, NAŠE POSLÁNÍ – PŘÍBĚH, KTERÝ PÍŠEME SPOLU</h2>
-                                <p>Jak fungujeme: neplatíte nám nic předem. Naše ‘odměna’ není jen plan na konci měsíce, ale naše opravdová odměna je vaše důvěra a výsledky, které společně dosáhneme. Každé doporučení, každá úspěšná spolupráce posiluje naši misi měnit životy skrze finanční svobodu. Chceme, aby tahle spolupráce měla smysl.</p> 
+                                <h2>VAŠE ÚSPĚCHY, NAŠE POSLÁNÍ - PŘÍBĚH, KTERÝ PÍŠEME SPOLU</h2>
+                                <p>Jak fungujeme: neplatíte nám nic předem. Naše 'odměna' není jen plan na konci měsíce, ale naše opravdová odměna je vaše důvěra a výsledky, které společně dosáhneme. Každé doporučení, každá úspěšná spolupráce posiluje naši misi měnit životy skrze finanční svobodu. Chceme, aby tahle spolupráce měla smysl.</p> 
                             </motion.div>
                             <motion.div 
                                 className="InfoBenefitS__sticky__Content__div__content" 
@@ -152,7 +156,7 @@ const InfoBenefitS = forwardRef(({scroll}, ref,) => {
                     </div>
                     <div className="subHeader">
                         <h3>01</h3>
-                        <p>Jedno rozhodnutí, jeden krok – s obrovskými odměnami.</p>
+                        <p>Jedno rozhodnutí, jeden krok - s obrovskými odměnami.</p>
                     </div>
                 </motion.div>
             </div>

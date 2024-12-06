@@ -34,7 +34,7 @@ export default function Requirements () {
                 {cards.map(( card, i) => {
                     const { number, content } = card
                     return(
-                        <div className="card__wrapper">
+                        <div className="card__wrapper" key={i}>
                             <div className="card">
                                 <h3>    
                                     {number}

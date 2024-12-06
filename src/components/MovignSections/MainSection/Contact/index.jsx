@@ -122,7 +122,7 @@ export default function Contact() {
                             const { name, likes, reviews, moto, src, alt } = person
 
                             return (
-                                <div className="Contact__Personal__choice__wrapper">
+                                <div className="Contact__Personal__choice__wrapper" key={i}>
                                     <div className="Contact__Personal__choice__image__container" key={i} style={{ zIndex: 1 + i}}>
                                         <AnimatePresence mode="wait">
                                             <motion.div 

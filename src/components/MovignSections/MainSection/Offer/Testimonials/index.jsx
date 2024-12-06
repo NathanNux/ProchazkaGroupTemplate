@@ -126,7 +126,7 @@ export default function Testimonials () {
         }, 10000);
 
         return () => clearInterval(timer);
-    }, [isAutoPlaying, activeIndices]);
+    }, [isAutoPlaying, activeIndices, handleNext]);
 
     const handleNext = (testimonialPosition) => {
         setDirection(1);

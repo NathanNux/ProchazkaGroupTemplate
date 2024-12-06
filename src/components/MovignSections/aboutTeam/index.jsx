@@ -31,6 +31,8 @@ export default function AboutTeam() {
         Array.from({ length: points }, (_, i) => (i / points) + (1 / (points * 2)))
     ), [points]);
 
+    // WIP: Look at the anim and fix the snapping - it's buggy - copy the code from the rewards component
+
     //Image anims
     const imageOpacity0 = useTransform(scrollYProgress, [0, peakPoints[0], peakPoints[0] + 0.05], [1, 1, 0], { clamp: true });
     const imageOpacity1 = useTransform(scrollYProgress, [peakPoints[1] - 0.075, peakPoints[1], peakPoints[1] + 0.075], [0, 1, 0], { clamp: true });

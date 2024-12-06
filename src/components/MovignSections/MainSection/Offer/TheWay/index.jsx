@@ -133,7 +133,7 @@ export default function TheWay() {
                             { values.map((value, i) => {
                                 const { number, text } = value;
                                 return(
-                                    <div className="Graph__Values__Card__item">
+                                    <div className="Graph__Values__Card__item" key={i}>
                                         <h3>
                                             {number}
                                         </h3>

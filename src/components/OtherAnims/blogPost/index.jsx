@@ -1,12 +1,274 @@
 import SVGButton from "@/components/Sticky/buttons/SvgButton"
 import Image from "next/image"
-import { Fragment, useRef, useState } from "react"
+import { Fragment, useMemo, useRef, useState } from "react"
 import { useScroll, motion, useTransform, AnimatePresence } from "framer-motion";
 import Footer from "../Footer";
 import CustomImage from "@/components/Sticky/images";
 import RoundButton from "@/components/Sticky/buttons/RoundButton";
 import SmallButton from "@/components/Sticky/buttons/SmallButton";
 
+const BlogPostData = [
+  {
+    header: 'Understanding Financial Planning',
+    number: '01',
+    content: `Financial planning is the cornerstone of long-term financial stability and success. It involves carefully managing your money to achieve your life goals.<br /><br />
+
+        <dot/>Key Components of Financial Planning<br />
+        <sub/>Budgeting: Track income and expenses<br />
+        <sub/>Saving: Build emergency funds and long-term wealth<br />
+        <sub/>Investing: Grow your money over time<br />
+        <sub/>Risk Management: Protect your assets with insurance<br />
+        <sub/>Tax Planning: Optimize your tax situation<br />
+        <sub/>Estate Planning: Prepare for wealth transfer<br /><br />
+        
+        A comprehensive financial plan should consider both your current financial situation and your future aspirations. It's a dynamic process that requires regular review and adjustment.<br /><br />
+        
+        <dot/>Steps to Create a Financial Plan<br />
+        <sub/>1. Set clear, measurable financial goals<br />
+        <sub/>2. Assess your current financial situation<br />
+        <sub/>3. Create a realistic budget<br />
+        <sub/>4. Develop a debt repayment strategy<br />
+        <sub/>5. Build an emergency fund<br />
+        <sub/>6. Invest for the future<br />
+        <sub/>7. Review and adjust your plan regularly<br /><br />
+        
+        Remember, financial planning is not a one-time event. As your life changes, so should your financial plan. Regular reviews and adjustments are crucial to stay on track towards your financial goals.`,
+    alt: '',
+    src: '',
+    styles: {
+      // Add any custom styles here
+    },
+},
+  {
+    header: 'The Importance of Emergency Funds',
+    number: '02',
+    content: `An emergency fund is a crucial component of financial stability, acting as a financial safety net during unexpected situations.<br /><br />
+
+        <dot/>What is an Emergency Fund?<br />
+        An emergency fund is a dedicated savings account to cover unexpected expenses or financial emergencies. It provides a buffer against life's uncertainties without relying on high-interest credit cards or loans.<br /><br />
+        
+        <dot/>Why is an Emergency Fund Important?<br />
+        <sub/>Financial Security: Protects against unexpected job loss or income reduction<br />
+        <sub/>Stress Reduction: Provides peace of mind during challenging times<br />
+        <sub/>Avoiding Debt: Prevents reliance on high-interest loans or credit cards<br />
+        <sub/>Financial Flexibility: Allows you to take advantage of opportunities<br /><br />
+        
+        <dot/>How Much Should You Save?<br />
+        Financial experts generally recommend saving 3-6 months of living expenses. However, the ideal amount can vary based on individual circumstances:<br />
+        <sub/>Job Stability: Those with less stable income may need larger emergency funds<br />
+        <sub/>Family Size: Larger families might require more substantial savings<br />
+        <sub/>Health Considerations: Individuals with chronic health issues may need extra funds<br /><br />
+        
+        <dot/>Building Your Emergency Fund<br />
+        <sub/>Start Small: Begin with a goal of $1,000 and build from there<br />
+        <sub/>Automate Savings: Set up automatic transfers to your emergency fund<br />
+        <sub/>Use Windfalls: Allocate tax refunds or bonuses to your emergency savings<br />
+        <sub/>Cut Unnecessary Expenses: Redirect savings to your emergency fund<br />
+        <sub/>Increase Income: Consider part-time work or freelancing to boost savings<br /><br />
+        
+        Remember, building an emergency fund takes time. Start small and be consistent in your savings efforts to achieve long-term financial security.`,
+    alt: 'image_1',
+    src: '/assets/reviewsBackground.png',
+    styles: {
+      // Add any custom styles here
+    },
+  },
+  {
+    header: 'Understanding Financial Planning',
+    number: '03',
+    content: `Financial planning is the cornerstone of long-term financial stability and success. It involves carefully managing your money to achieve your life goals.<br /><br />
+    
+    <dot/>Key Components of Financial Planning<br />
+    <sub/>Budgeting: Track income and expenses<br />
+    <sub/>Saving: Build emergency funds and long-term wealth<br />
+    <sub/>Investing: Grow your money over time<br />
+    <sub/>Risk Management: Protect your assets with insurance<br />
+    <sub/>Tax Planning: Optimize your tax situation<br />
+    <sub/>Estate Planning: Prepare for wealth transfer<br /><br />
+    
+    A comprehensive financial plan should consider both your current financial situation and your future aspirations. It's a dynamic process that requires regular review and adjustment.<br /><br />
+    
+    <dot/>Steps to Create a Financial Plan<br />
+    <sub/>1. Set clear, measurable financial goals<br />
+    <sub/>2. Assess your current financial situation<br />
+    <sub/>3. Create a realistic budget<br />
+    <sub/>4. Develop a debt repayment strategy<br />
+    <sub/>5. Build an emergency fund<br />
+    <sub/>6. Invest for the future<br />
+    <sub/>7. Review and adjust your plan regularly<br /><br />
+    
+    Remember, financial planning is not a one-time event. As your life changes, so should your financial plan. Regular reviews and adjustments are crucial to stay on track towards your financial goals.`,
+    alt: 'Comprehensive financial planning illustration',
+    src: '',
+    styles: {
+      // Add any custom styles here
+    },
+  },
+  {
+    header: 'The Importance of Emergency Funds',
+    number: '04',
+    content: `An emergency fund is a crucial component of financial stability, acting as a financial safety net during unexpected situations.<br /><br />
+
+    <dot/>What is an Emergency Fund?<br />
+    An emergency fund is a dedicated savings account to cover unexpected expenses or financial emergencies. It provides a buffer against life's uncertainties without relying on high-interest credit cards or loans.<br /><br />
+    
+    <dot/>Why is an Emergency Fund Important?<br />
+    <sub/>Financial Security: Protects against unexpected job loss or income reduction<br />
+    <sub/>Stress Reduction: Provides peace of mind during challenging times<br />
+    <sub/>Avoiding Debt: Prevents reliance on high-interest loans or credit cards<br />
+    <sub/>Financial Flexibility: Allows you to take advantage of opportunities<br /><br />
+    
+    <dot/>How Much Should You Save?<br />
+    Financial experts generally recommend saving 3-6 months of living expenses. However, the ideal amount can vary based on individual circumstances:<br />
+    <sub/>Job Stability: Those with less stable income may need larger emergency funds<br />
+    <sub/>Family Size: Larger families might require more substantial savings<br />
+    <sub/>Health Considerations: Individuals with chronic health issues may need extra funds<br /><br />
+    
+    <dot/>Building Your Emergency Fund<br />
+    <sub/>Start Small: Begin with a goal of $1,000 and build from there<br />
+    <sub/>Automate Savings: Set up automatic transfers to your emergency fund<br />
+    <sub/>Use Windfalls: Allocate tax refunds or bonuses to your emergency savings<br />
+    <sub/>Cut Unnecessary Expenses: Redirect savings to your emergency fund<br />
+    <sub/>Increase Income: Consider part-time work or freelancing to boost savings<br /><br />
+    
+    Remember, building an emergency fund takes time. Start small and be consistent in your savings efforts to achieve long-term financial security.`,
+    alt: 'Emergency fund savings concept',
+    src: '',
+    styles: {
+      // Add any custom styles here
+    },
+  },
+  {
+    header: 'Understanding Financial Planning',
+    number: '05',
+    content: `Financial planning is the cornerstone of long-term financial stability and success. It involves carefully managing your money to achieve your life goals.<br /><br />
+
+    <dot/>Key Components of Financial Planning<br />
+    <sub/>Budgeting: Track income and expenses<br />
+    <sub/>Saving: Build emergency funds and long-term wealth<br />
+    <sub/>Investing: Grow your money over time<br />
+    <sub/>Risk Management: Protect your assets with insurance<br />
+    <sub/>Tax Planning: Optimize your tax situation<br />
+    <sub/>Estate Planning: Prepare for wealth transfer<br /><br />
+    
+    A comprehensive financial plan should consider both your current financial situation and your future aspirations. It's a dynamic process that requires regular review and adjustment.<br /><br />
+    
+    <dot/>Steps to Create a Financial Plan<br />
+    <sub/>1. Set clear, measurable financial goals<br />
+    <sub/>2. Assess your current financial situation<br />
+    <sub/>3. Create a realistic budget<br />
+    <sub/>4. Develop a debt repayment strategy<br />
+    <sub/>5. Build an emergency fund<br />
+    <sub/>6. Invest for the future<br />
+    <sub/>7. Review and adjust your plan regularly<br /><br />
+    
+    Remember, financial planning is not a one-time event. As your life changes, so should your financial plan. Regular reviews and adjustments are crucial to stay on track towards your financial goals.`,
+    alt: 'Comprehensive financial planning illustration',
+    src: '',
+    styles: {
+      // Add any custom styles here
+    },
+  },
+  {
+    header: 'The Importance of Emergency Funds',
+    number: '06',
+    content: `An emergency fund is a crucial component of financial stability, acting as a financial safety net during unexpected situations.<br /><br />
+
+    <dot/>What is an Emergency Fund?<br />
+    An emergency fund is a dedicated savings account to cover unexpected expenses or financial emergencies. It provides a buffer against life's uncertainties without relying on high-interest credit cards or loans.<br /><br />
+    
+    <dot/>Why is an Emergency Fund Important?<br />
+    <sub/>Financial Security: Protects against unexpected job loss or income reduction<br />
+    <sub/>Stress Reduction: Provides peace of mind during challenging times<br />
+    <sub/>Avoiding Debt: Prevents reliance on high-interest loans or credit cards<br />
+    <sub/>Financial Flexibility: Allows you to take advantage of opportunities<br /><br />
+    
+    <dot/>How Much Should You Save?<br />
+    Financial experts generally recommend saving 3-6 months of living expenses. However, the ideal amount can vary based on individual circumstances:<br />
+    <sub/>Job Stability: Those with less stable income may need larger emergency funds<br />
+    <sub/>Family Size: Larger families might require more substantial savings<br />
+    <sub/>Health Considerations: Individuals with chronic health issues may need extra funds<br /><br />
+    
+    <dot/>Building Your Emergency Fund<br />
+    <sub/>Start Small: Begin with a goal of $1,000 and build from there<br />
+    <sub/>Automate Savings: Set up automatic transfers to your emergency fund<br />
+    <sub/>Use Windfalls: Allocate tax refunds or bonuses to your emergency savings<br />
+    <sub/>Cut Unnecessary Expenses: Redirect savings to your emergency fund<br />
+    <sub/>Increase Income: Consider part-time work or freelancing to boost savings<br /><br />
+    
+    Remember, building an emergency fund takes time. Start small and be consistent in your savings efforts to achieve long-term financial security.`,
+    alt: 'Emergency fund savings concept',
+    src: '',
+    styles: {
+      // Add any custom styles here
+    },
+  },
+  {
+    header: 'Understanding Financial Planning',
+    number: '07',
+    content: `Financial planning is the cornerstone of long-term financial stability and success. It involves carefully managing your money to achieve your life goals.<br /><br />
+
+    <dot/>Key Components of Financial Planning<br />
+    <sub/>Budgeting: Track income and expenses<br />
+    <sub/>Saving: Build emergency funds and long-term wealth<br />
+    <sub/>Investing: Grow your money over time<br />
+    <sub/>Risk Management: Protect your assets with insurance<br />
+    <sub/>Tax Planning: Optimize your tax situation<br />
+    <sub/>Estate Planning: Prepare for wealth transfer<br /><br />
+    
+    A comprehensive financial plan should consider both your current financial situation and your future aspirations. It's a dynamic process that requires regular review and adjustment.<br /><br />
+    
+    <dot/>Steps to Create a Financial Plan<br />
+    <sub/>1. Set clear, measurable financial goals<br />
+    <sub/>2. Assess your current financial situation<br />
+    <sub/>3. Create a realistic budget<br />
+    <sub/>4. Develop a debt repayment strategy<br />
+    <sub/>5. Build an emergency fund<br />
+    <sub/>6. Invest for the future<br />
+    <sub/>7. Review and adjust your plan regularly<br /><br />
+    
+    Remember, financial planning is not a one-time event. As your life changes, so should your financial plan. Regular reviews and adjustments are crucial to stay on track towards your financial goals.`,
+    alt: 'Comprehensive financial planning illustration',
+    src: '',
+    styles: {
+      // Add any custom styles here
+    },
+  },
+  {
+    header: 'The Importance of Emergency Funds',
+    number: '08',
+    content: `An emergency fund is a crucial component of financial stability, acting as a financial safety net during unexpected situations.<br /><br />
+
+    <dot/>What is an Emergency Fund?<br />
+    An emergency fund is a dedicated savings account to cover unexpected expenses or financial emergencies. It provides a buffer against life's uncertainties without relying on high-interest credit cards or loans.<br /><br />
+    
+    <dot/>Why is an Emergency Fund Important?<br />
+    <sub/>Financial Security: Protects against unexpected job loss or income reduction<br />
+    <sub/>Stress Reduction: Provides peace of mind during challenging times<br />
+    <sub/>Avoiding Debt: Prevents reliance on high-interest loans or credit cards<br />
+    <sub/>Financial Flexibility: Allows you to take advantage of opportunities<br /><br />
+    
+    <dot/>How Much Should You Save?<br />
+    Financial experts generally recommend saving 3-6 months of living expenses. However, the ideal amount can vary based on individual circumstances:<br />
+    <sub/>Job Stability: Those with less stable income may need larger emergency funds<br />
+    <sub/>Family Size: Larger families might require more substantial savings<br />
+    <sub/>Health Considerations: Individuals with chronic health issues may need extra funds<br /><br />
+    
+    <dot/>Building Your Emergency Fund<br />
+    <sub/>Start Small: Begin with a goal of $1,000 and build from there<br />
+    <sub/>Automate Savings: Set up automatic transfers to your emergency fund<br />
+    <sub/>Use Windfalls: Allocate tax refunds or bonuses to your emergency savings<br />
+    <sub/>Cut Unnecessary Expenses: Redirect savings to your emergency fund<br />
+    <sub/>Increase Income: Consider part-time work or freelancing to boost savings<br /><br />
+    
+    Remember, building an emergency fund takes time. Start small and be consistent in your savings efforts to achieve long-term financial security.`,
+    alt: 'Emergency fund savings concept',
+    src: '',
+    styles: {
+      // Add any custom styles here
+    },
+  }
+]
 
 const data = [
     {
@@ -32,269 +294,6 @@ const data = [
         data: '28',
         src: '/thumbsUp.svg',
         alt: 'Comments__icon'
-    }
-]
-
-const BlogPostData = [
-    {
-        header: 'Understanding Financial Planning',
-        number: '01',
-        content: `Financial planning is the cornerstone of long-term financial stability and success. It involves carefully managing your money to achieve your life goals.<br /><br />
-    
-            <dot/>Key Components of Financial Planning<br />
-            <sub/>Budgeting: Track income and expenses<br />
-            <sub/>Saving: Build emergency funds and long-term wealth<br />
-            <sub/>Investing: Grow your money over time<br />
-            <sub/>Risk Management: Protect your assets with insurance<br />
-            <sub/>Tax Planning: Optimize your tax situation<br />
-            <sub/>Estate Planning: Prepare for wealth transfer<br /><br />
-            
-            A comprehensive financial plan should consider both your current financial situation and your future aspirations. It's a dynamic process that requires regular review and adjustment.<br /><br />
-            
-            <dot/>Steps to Create a Financial Plan<br />
-            <sub/>1. Set clear, measurable financial goals<br />
-            <sub/>2. Assess your current financial situation<br />
-            <sub/>3. Create a realistic budget<br />
-            <sub/>4. Develop a debt repayment strategy<br />
-            <sub/>5. Build an emergency fund<br />
-            <sub/>6. Invest for the future<br />
-            <sub/>7. Review and adjust your plan regularly<br /><br />
-            
-            Remember, financial planning is not a one-time event. As your life changes, so should your financial plan. Regular reviews and adjustments are crucial to stay on track towards your financial goals.`,
-        alt: '',
-        src: '',
-        styles: {
-          // Add any custom styles here
-        } 
-      },
-      {
-        header: 'The Importance of Emergency Funds',
-        number: '02',
-        content: `An emergency fund is a crucial component of financial stability, acting as a financial safety net during unexpected situations.<br /><br />
-    
-            <dot/>What is an Emergency Fund?<br />
-            An emergency fund is a dedicated savings account to cover unexpected expenses or financial emergencies. It provides a buffer against life's uncertainties without relying on high-interest credit cards or loans.<br /><br />
-            
-            <dot/>Why is an Emergency Fund Important?<br />
-            <sub/>Financial Security: Protects against unexpected job loss or income reduction<br />
-            <sub/>Stress Reduction: Provides peace of mind during challenging times<br />
-            <sub/>Avoiding Debt: Prevents reliance on high-interest loans or credit cards<br />
-            <sub/>Financial Flexibility: Allows you to take advantage of opportunities<br /><br />
-            
-            <dot/>How Much Should You Save?<br />
-            Financial experts generally recommend saving 3-6 months of living expenses. However, the ideal amount can vary based on individual circumstances:<br />
-            <sub/>Job Stability: Those with less stable income may need larger emergency funds<br />
-            <sub/>Family Size: Larger families might require more substantial savings<br />
-            <sub/>Health Considerations: Individuals with chronic health issues may need extra funds<br /><br />
-            
-            <dot/>Building Your Emergency Fund<br />
-            <sub/>Start Small: Begin with a goal of $1,000 and build from there<br />
-            <sub/>Automate Savings: Set up automatic transfers to your emergency fund<br />
-            <sub/>Use Windfalls: Allocate tax refunds or bonuses to your emergency savings<br />
-            <sub/>Cut Unnecessary Expenses: Redirect savings to your emergency fund<br />
-            <sub/>Increase Income: Consider part-time work or freelancing to boost savings<br /><br />
-            
-            Remember, building an emergency fund takes time. Start small and be consistent in your savings efforts to achieve long-term financial security.`,
-        alt: 'image_1',
-        src: '/assets/reviewsBackground.png',
-        styles: {
-          // Add any custom styles here
-        } 
-    },
-    {
-        header: 'Understanding Financial Planning',
-        number: '03',
-        content: `Financial planning is the cornerstone of long-term financial stability and success. It involves carefully managing your money to achieve your life goals.<br /><br />
-        
-        <dot/>Key Components of Financial Planning<br />
-        <sub/>Budgeting: Track income and expenses<br />
-        <sub/>Saving: Build emergency funds and long-term wealth<br />
-        <sub/>Investing: Grow your money over time<br />
-        <sub/>Risk Management: Protect your assets with insurance<br />
-        <sub/>Tax Planning: Optimize your tax situation<br />
-        <sub/>Estate Planning: Prepare for wealth transfer<br /><br />
-        
-        A comprehensive financial plan should consider both your current financial situation and your future aspirations. It's a dynamic process that requires regular review and adjustment.<br /><br />
-        
-        <dot/>Steps to Create a Financial Plan<br />
-        <sub/>1. Set clear, measurable financial goals<br />
-        <sub/>2. Assess your current financial situation<br />
-        <sub/>3. Create a realistic budget<br />
-        <sub/>4. Develop a debt repayment strategy<br />
-        <sub/>5. Build an emergency fund<br />
-        <sub/>6. Invest for the future<br />
-        <sub/>7. Review and adjust your plan regularly<br /><br />
-        
-        Remember, financial planning is not a one-time event. As your life changes, so should your financial plan. Regular reviews and adjustments are crucial to stay on track towards your financial goals.`,
-        alt: 'Comprehensive financial planning illustration',
-        src: '',
-        styles: {
-          // Add any custom styles here
-        } 
-    },
-    {
-        header: 'The Importance of Emergency Funds',
-        number: '04',
-        content: `An emergency fund is a crucial component of financial stability, acting as a financial safety net during unexpected situations.<br /><br />
-    
-        <dot/>What is an Emergency Fund?<br />
-        An emergency fund is a dedicated savings account to cover unexpected expenses or financial emergencies. It provides a buffer against life's uncertainties without relying on high-interest credit cards or loans.<br /><br />
-        
-        <dot/>Why is an Emergency Fund Important?<br />
-        <sub/>Financial Security: Protects against unexpected job loss or income reduction<br />
-        <sub/>Stress Reduction: Provides peace of mind during challenging times<br />
-        <sub/>Avoiding Debt: Prevents reliance on high-interest loans or credit cards<br />
-        <sub/>Financial Flexibility: Allows you to take advantage of opportunities<br /><br />
-        
-        <dot/>How Much Should You Save?<br />
-        Financial experts generally recommend saving 3-6 months of living expenses. However, the ideal amount can vary based on individual circumstances:<br />
-        <sub/>Job Stability: Those with less stable income may need larger emergency funds<br />
-        <sub/>Family Size: Larger families might require more substantial savings<br />
-        <sub/>Health Considerations: Individuals with chronic health issues may need extra funds<br /><br />
-        
-        <dot/>Building Your Emergency Fund<br />
-        <sub/>Start Small: Begin with a goal of $1,000 and build from there<br />
-        <sub/>Automate Savings: Set up automatic transfers to your emergency fund<br />
-        <sub/>Use Windfalls: Allocate tax refunds or bonuses to your emergency savings<br />
-        <sub/>Cut Unnecessary Expenses: Redirect savings to your emergency fund<br />
-        <sub/>Increase Income: Consider part-time work or freelancing to boost savings<br /><br />
-        
-        Remember, building an emergency fund takes time. Start small and be consistent in your savings efforts to achieve long-term financial security.`,
-        alt: 'Emergency fund savings concept',
-        src: '',
-        styles: {
-          // Add any custom styles here
-        } 
-    },
-    {
-        header: 'Understanding Financial Planning',
-        number: '05',
-        content: `Financial planning is the cornerstone of long-term financial stability and success. It involves carefully managing your money to achieve your life goals.<br /><br />
-    
-        <dot/>Key Components of Financial Planning<br />
-        <sub/>Budgeting: Track income and expenses<br />
-        <sub/>Saving: Build emergency funds and long-term wealth<br />
-        <sub/>Investing: Grow your money over time<br />
-        <sub/>Risk Management: Protect your assets with insurance<br />
-        <sub/>Tax Planning: Optimize your tax situation<br />
-        <sub/>Estate Planning: Prepare for wealth transfer<br /><br />
-        
-        A comprehensive financial plan should consider both your current financial situation and your future aspirations. It's a dynamic process that requires regular review and adjustment.<br /><br />
-        
-        <dot/>Steps to Create a Financial Plan<br />
-        <sub/>1. Set clear, measurable financial goals<br />
-        <sub/>2. Assess your current financial situation<br />
-        <sub/>3. Create a realistic budget<br />
-        <sub/>4. Develop a debt repayment strategy<br />
-        <sub/>5. Build an emergency fund<br />
-        <sub/>6. Invest for the future<br />
-        <sub/>7. Review and adjust your plan regularly<br /><br />
-        
-        Remember, financial planning is not a one-time event. As your life changes, so should your financial plan. Regular reviews and adjustments are crucial to stay on track towards your financial goals.`,
-        alt: 'Comprehensive financial planning illustration',
-        src: '',
-        styles: {
-          // Add any custom styles here
-        } 
-    },
-    {
-        header: 'The Importance of Emergency Funds',
-        number: '06',
-        content: `An emergency fund is a crucial component of financial stability, acting as a financial safety net during unexpected situations.<br /><br />
-    
-        <dot/>What is an Emergency Fund?<br />
-        An emergency fund is a dedicated savings account to cover unexpected expenses or financial emergencies. It provides a buffer against life's uncertainties without relying on high-interest credit cards or loans.<br /><br />
-        
-        <dot/>Why is an Emergency Fund Important?<br />
-        <sub/>Financial Security: Protects against unexpected job loss or income reduction<br />
-        <sub/>Stress Reduction: Provides peace of mind during challenging times<br />
-        <sub/>Avoiding Debt: Prevents reliance on high-interest loans or credit cards<br />
-        <sub/>Financial Flexibility: Allows you to take advantage of opportunities<br /><br />
-        
-        <dot/>How Much Should You Save?<br />
-        Financial experts generally recommend saving 3-6 months of living expenses. However, the ideal amount can vary based on individual circumstances:<br />
-        <sub/>Job Stability: Those with less stable income may need larger emergency funds<br />
-        <sub/>Family Size: Larger families might require more substantial savings<br />
-        <sub/>Health Considerations: Individuals with chronic health issues may need extra funds<br /><br />
-        
-        <dot/>Building Your Emergency Fund<br />
-        <sub/>Start Small: Begin with a goal of $1,000 and build from there<br />
-        <sub/>Automate Savings: Set up automatic transfers to your emergency fund<br />
-        <sub/>Use Windfalls: Allocate tax refunds or bonuses to your emergency savings<br />
-        <sub/>Cut Unnecessary Expenses: Redirect savings to your emergency fund<br />
-        <sub/>Increase Income: Consider part-time work or freelancing to boost savings<br /><br />
-        
-        Remember, building an emergency fund takes time. Start small and be consistent in your savings efforts to achieve long-term financial security.`,
-        alt: 'Emergency fund savings concept',
-        src: '',
-        styles: {
-          // Add any custom styles here
-        } 
-    },
-    {
-        header: 'Understanding Financial Planning',
-        number: '07',
-        content: `Financial planning is the cornerstone of long-term financial stability and success. It involves carefully managing your money to achieve your life goals.<br /><br />
-    
-        <dot/>Key Components of Financial Planning<br />
-        <sub/>Budgeting: Track income and expenses<br />
-        <sub/>Saving: Build emergency funds and long-term wealth<br />
-        <sub/>Investing: Grow your money over time<br />
-        <sub/>Risk Management: Protect your assets with insurance<br />
-        <sub/>Tax Planning: Optimize your tax situation<br />
-        <sub/>Estate Planning: Prepare for wealth transfer<br /><br />
-        
-        A comprehensive financial plan should consider both your current financial situation and your future aspirations. It's a dynamic process that requires regular review and adjustment.<br /><br />
-        
-        <dot/>Steps to Create a Financial Plan<br />
-        <sub/>1. Set clear, measurable financial goals<br />
-        <sub/>2. Assess your current financial situation<br />
-        <sub/>3. Create a realistic budget<br />
-        <sub/>4. Develop a debt repayment strategy<br />
-        <sub/>5. Build an emergency fund<br />
-        <sub/>6. Invest for the future<br />
-        <sub/>7. Review and adjust your plan regularly<br /><br />
-        
-        Remember, financial planning is not a one-time event. As your life changes, so should your financial plan. Regular reviews and adjustments are crucial to stay on track towards your financial goals.`,
-        alt: 'Comprehensive financial planning illustration',
-        src: '',
-        styles: {
-          // Add any custom styles here
-        } 
-    },
-    {
-        header: 'The Importance of Emergency Funds',
-        number: '08',
-        content: `An emergency fund is a crucial component of financial stability, acting as a financial safety net during unexpected situations.<br /><br />
-    
-        <dot/>What is an Emergency Fund?<br />
-        An emergency fund is a dedicated savings account to cover unexpected expenses or financial emergencies. It provides a buffer against life's uncertainties without relying on high-interest credit cards or loans.<br /><br />
-        
-        <dot/>Why is an Emergency Fund Important?<br />
-        <sub/>Financial Security: Protects against unexpected job loss or income reduction<br />
-        <sub/>Stress Reduction: Provides peace of mind during challenging times<br />
-        <sub/>Avoiding Debt: Prevents reliance on high-interest loans or credit cards<br />
-        <sub/>Financial Flexibility: Allows you to take advantage of opportunities<br /><br />
-        
-        <dot/>How Much Should You Save?<br />
-        Financial experts generally recommend saving 3-6 months of living expenses. However, the ideal amount can vary based on individual circumstances:<br />
-        <sub/>Job Stability: Those with less stable income may need larger emergency funds<br />
-        <sub/>Family Size: Larger families might require more substantial savings<br />
-        <sub/>Health Considerations: Individuals with chronic health issues may need extra funds<br /><br />
-        
-        <dot/>Building Your Emergency Fund<br />
-        <sub/>Start Small: Begin with a goal of $1,000 and build from there<br />
-        <sub/>Automate Savings: Set up automatic transfers to your emergency fund<br />
-        <sub/>Use Windfalls: Allocate tax refunds or bonuses to your emergency savings<br />
-        <sub/>Cut Unnecessary Expenses: Redirect savings to your emergency fund<br />
-        <sub/>Increase Income: Consider part-time work or freelancing to boost savings<br /><br />
-        
-        Remember, building an emergency fund takes time. Start small and be consistent in your savings efforts to achieve long-term financial security.`,
-        alt: 'Emergency fund savings concept',
-        src: '',
-        styles: {
-          // Add any custom styles here
-        } 
     }
 ]
 
@@ -428,7 +427,7 @@ function BlogHeader () {
                     const { time, data, src, alt} = detail
 
                     return (
-                        <div className="Details__item">
+                        <div className="Details__item" key={i}>
                             <h3>
                                 {time || data}
                             </h3>
@@ -515,17 +514,22 @@ function ContentMap({ handleCircleClick }) {
         </ul>
       </div>
     );
-  }
+}
 
 function BlogContent () {
-    const sectionRef = useRef(null);
-    const contentWrapperRefs = useRef([]);
-    const [ isHovered, setIsHovered ] = useState(false)
-    const { scrollYProgress } = useScroll({
-      target: sectionRef,
-      offset: ['start start', 'end start']
-    });
-    const points = BlogPostData.length;
+  const sectionRef = useRef(null);
+  const contentWrapperRefs = useRef([]);
+  const [ isHovered, setIsHovered ] = useState(false)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start']
+  });
+  const points = 8;
+
+  // Calculate peak points with useMemo
+  const peakPoints = useMemo(() => (
+      Array.from({ length: points }, (_, i) => i / points)
+  ), [points]);
 
   const handleCircleClick = (index) => {
     const targetElement = contentWrapperRefs.current[index];
@@ -545,12 +549,6 @@ function BlogContent () {
     }
   };
 
-  const peakPoints = BlogPostData.map((_, i) => {
-    const segmentStart = i / points;
-
-    return segmentStart;
-  });
-
   const tablecontnent = useTransform(
     scrollYProgress,
     [ 0, 0.05, 0.9, 0.95, 1 ],
@@ -562,134 +560,407 @@ function BlogContent () {
     visible: { x: "-5vw" }
   };
 
-  const circleProgress = BlogPostData.map((_, i) => {
-    const peakPoint = peakPoints[i];
-    const transitionRange = 0.05 / points;
 
-    if (i === 0) {
-      return useTransform(
-        scrollYProgress,
-        [peakPoint - transitionRange, peakPoint],
-        [1, 1],
-        { clamp: true }
-      );
-    }
+  //Circle anims
+  const circleProgress0 = useTransform(scrollYProgress, [0, peakPoints[0]], [1, 1], { clamp: true });
+  const circleProgress1 = useTransform(scrollYProgress, [peakPoints[1] - 0.05, peakPoints[1]], [0, 1], { clamp: true });
+  const circleProgress2 = useTransform(scrollYProgress, [peakPoints[2] - 0.05, peakPoints[2]], [0, 1], { clamp: true });
+  const circleProgress3 = useTransform(scrollYProgress, [peakPoints[3] - 0.05, peakPoints[3]], [0, 1], { clamp: true });
+  const circleProgress4 = useTransform(scrollYProgress, [peakPoints[4] - 0.05, peakPoints[4]], [0, 1], { clamp: true });
+  const circleProgress5 = useTransform(scrollYProgress, [peakPoints[5] - 0.05, peakPoints[5]], [0, 1], { clamp: true });
+  const circleProgress6 = useTransform(scrollYProgress, [peakPoints[6] - 0.05, peakPoints[6]], [0, 1], { clamp: true });
+  const circleProgress7 = useTransform(scrollYProgress, [peakPoints[7] - 0.05, peakPoints[7]], [0, 1], { clamp: true });
 
-    return useTransform(
-      scrollYProgress,
-      [peakPoint - transitionRange, peakPoint],
-      [0, 1],
-      { clamp: true }
-    );
-  });
-
-  const segmentProgress = BlogPostData.map((_, i) => {
-    const peakPoint = peakPoints[i];
-    const transitionRange = 0.9 / points;
-
-    return useTransform(
-      scrollYProgress,
-      [peakPoint, peakPoint + transitionRange],
-      ['-100%', '0%'],
-      { clamp: true }
-    );
-  });
   
+  //Segents anims
+  const segmentProgress0 = useTransform(scrollYProgress, [peakPoints[0], peakPoints[1]], ['100%', '0%'], { clamp: true });
+  const segmentProgress1 = useTransform(scrollYProgress, [peakPoints[1], peakPoints[2]], ['100%', '0%'], { clamp: true });
+  const segmentProgress2 = useTransform(scrollYProgress, [peakPoints[2], peakPoints[3]], ['100%', '0%'], { clamp: true });
+  const segmentProgress3 = useTransform(scrollYProgress, [peakPoints[3], peakPoints[4]], ['100%', '0%'], { clamp: true });
+  const segmentProgress4 = useTransform(scrollYProgress, [peakPoints[4], peakPoints[5]], ['100%', '0%'], { clamp: true });
+  const segmentProgress5 = useTransform(scrollYProgress, [peakPoints[5], peakPoints[6]], ['100%', '0%'], { clamp: true });
+  const segmentProgress6 = useTransform(scrollYProgress, [peakPoints[6], peakPoints[7]], ['100%', '0%'], { clamp: true });
+  const segmentProgress7 = useTransform(scrollYProgress, [peakPoints[7], 1], ['100%', '0%'], { clamp: true });
 
-    return (
-        <div className="BlogContent" ref={sectionRef}>
-            <div className="Header">
-                <ContentMap handleCircleClick={handleCircleClick} />
-                <div className="Intro__Container">
-                    <h3>Úvod</h3>
-                    {renderIntroContent(blogIntro.content)}
-                </div>
-                <div className="devider"/>
-            </div>
-            <div className="Content__container">
-                <motion.div
-                    className="tableContant"
-                    initial="hidden"
-                    animate={isHovered ? "visible" : "hidden"}
-                    variants={tableContentVariants}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    style={{ 
-                        opacity: tablecontnent
-                    }}
-                    onHoverStart={() => setIsHovered(true)}
-                    onHoverEnd={() => setIsHovered(false)}
-                >
-                    <motion.div 
-                        className="tableContent__hover"
-                    >
-                        <p>Content</p>
-                    </motion.div>
-                    <ContentMap handleCircleClick={handleCircleClick} />
-                </motion.div>
+  const BlogPostData = [
+    {
+      header: 'Understanding Financial Planning',
+      number: '01',
+      content: `Financial planning is the cornerstone of long-term financial stability and success. It involves carefully managing your money to achieve your life goals.<br /><br />
+  
+          <dot/>Key Components of Financial Planning<br />
+          <sub/>Budgeting: Track income and expenses<br />
+          <sub/>Saving: Build emergency funds and long-term wealth<br />
+          <sub/>Investing: Grow your money over time<br />
+          <sub/>Risk Management: Protect your assets with insurance<br />
+          <sub/>Tax Planning: Optimize your tax situation<br />
+          <sub/>Estate Planning: Prepare for wealth transfer<br /><br />
+          
+          A comprehensive financial plan should consider both your current financial situation and your future aspirations. It's a dynamic process that requires regular review and adjustment.<br /><br />
+          
+          <dot/>Steps to Create a Financial Plan<br />
+          <sub/>1. Set clear, measurable financial goals<br />
+          <sub/>2. Assess your current financial situation<br />
+          <sub/>3. Create a realistic budget<br />
+          <sub/>4. Develop a debt repayment strategy<br />
+          <sub/>5. Build an emergency fund<br />
+          <sub/>6. Invest for the future<br />
+          <sub/>7. Review and adjust your plan regularly<br /><br />
+          
+          Remember, financial planning is not a one-time event. As your life changes, so should your financial plan. Regular reviews and adjustments are crucial to stay on track towards your financial goals.`,
+      alt: '',
+      src: '',
+      styles: {
+        // Add any custom styles here
+      },
+      circleAnim: circleProgress0,
+      segmentAnim: segmentProgress0
+  },
+    {
+      header: 'The Importance of Emergency Funds',
+      number: '02',
+      content: `An emergency fund is a crucial component of financial stability, acting as a financial safety net during unexpected situations.<br /><br />
+  
+          <dot/>What is an Emergency Fund?<br />
+          An emergency fund is a dedicated savings account to cover unexpected expenses or financial emergencies. It provides a buffer against life's uncertainties without relying on high-interest credit cards or loans.<br /><br />
+          
+          <dot/>Why is an Emergency Fund Important?<br />
+          <sub/>Financial Security: Protects against unexpected job loss or income reduction<br />
+          <sub/>Stress Reduction: Provides peace of mind during challenging times<br />
+          <sub/>Avoiding Debt: Prevents reliance on high-interest loans or credit cards<br />
+          <sub/>Financial Flexibility: Allows you to take advantage of opportunities<br /><br />
+          
+          <dot/>How Much Should You Save?<br />
+          Financial experts generally recommend saving 3-6 months of living expenses. However, the ideal amount can vary based on individual circumstances:<br />
+          <sub/>Job Stability: Those with less stable income may need larger emergency funds<br />
+          <sub/>Family Size: Larger families might require more substantial savings<br />
+          <sub/>Health Considerations: Individuals with chronic health issues may need extra funds<br /><br />
+          
+          <dot/>Building Your Emergency Fund<br />
+          <sub/>Start Small: Begin with a goal of $1,000 and build from there<br />
+          <sub/>Automate Savings: Set up automatic transfers to your emergency fund<br />
+          <sub/>Use Windfalls: Allocate tax refunds or bonuses to your emergency savings<br />
+          <sub/>Cut Unnecessary Expenses: Redirect savings to your emergency fund<br />
+          <sub/>Increase Income: Consider part-time work or freelancing to boost savings<br /><br />
+          
+          Remember, building an emergency fund takes time. Start small and be consistent in your savings efforts to achieve long-term financial security.`,
+      alt: 'image_1',
+      src: '/assets/reviewsBackground.png',
+      styles: {
+        // Add any custom styles here
+      },
+      circleAnim: circleProgress1,
+      segmentAnim: segmentProgress1
+    },
+    {
+      header: 'Understanding Financial Planning',
+      number: '03',
+      content: `Financial planning is the cornerstone of long-term financial stability and success. It involves carefully managing your money to achieve your life goals.<br /><br />
+      
+      <dot/>Key Components of Financial Planning<br />
+      <sub/>Budgeting: Track income and expenses<br />
+      <sub/>Saving: Build emergency funds and long-term wealth<br />
+      <sub/>Investing: Grow your money over time<br />
+      <sub/>Risk Management: Protect your assets with insurance<br />
+      <sub/>Tax Planning: Optimize your tax situation<br />
+      <sub/>Estate Planning: Prepare for wealth transfer<br /><br />
+      
+      A comprehensive financial plan should consider both your current financial situation and your future aspirations. It's a dynamic process that requires regular review and adjustment.<br /><br />
+      
+      <dot/>Steps to Create a Financial Plan<br />
+      <sub/>1. Set clear, measurable financial goals<br />
+      <sub/>2. Assess your current financial situation<br />
+      <sub/>3. Create a realistic budget<br />
+      <sub/>4. Develop a debt repayment strategy<br />
+      <sub/>5. Build an emergency fund<br />
+      <sub/>6. Invest for the future<br />
+      <sub/>7. Review and adjust your plan regularly<br /><br />
+      
+      Remember, financial planning is not a one-time event. As your life changes, so should your financial plan. Regular reviews and adjustments are crucial to stay on track towards your financial goals.`,
+      alt: 'Comprehensive financial planning illustration',
+      src: '',
+      styles: {
+        // Add any custom styles here
+      },
+      circleAnim: circleProgress2,
+      segmentAnim: segmentProgress2
+    },
+    {
+      header: 'The Importance of Emergency Funds',
+      number: '04',
+      content: `An emergency fund is a crucial component of financial stability, acting as a financial safety net during unexpected situations.<br /><br />
+  
+      <dot/>What is an Emergency Fund?<br />
+      An emergency fund is a dedicated savings account to cover unexpected expenses or financial emergencies. It provides a buffer against life's uncertainties without relying on high-interest credit cards or loans.<br /><br />
+      
+      <dot/>Why is an Emergency Fund Important?<br />
+      <sub/>Financial Security: Protects against unexpected job loss or income reduction<br />
+      <sub/>Stress Reduction: Provides peace of mind during challenging times<br />
+      <sub/>Avoiding Debt: Prevents reliance on high-interest loans or credit cards<br />
+      <sub/>Financial Flexibility: Allows you to take advantage of opportunities<br /><br />
+      
+      <dot/>How Much Should You Save?<br />
+      Financial experts generally recommend saving 3-6 months of living expenses. However, the ideal amount can vary based on individual circumstances:<br />
+      <sub/>Job Stability: Those with less stable income may need larger emergency funds<br />
+      <sub/>Family Size: Larger families might require more substantial savings<br />
+      <sub/>Health Considerations: Individuals with chronic health issues may need extra funds<br /><br />
+      
+      <dot/>Building Your Emergency Fund<br />
+      <sub/>Start Small: Begin with a goal of $1,000 and build from there<br />
+      <sub/>Automate Savings: Set up automatic transfers to your emergency fund<br />
+      <sub/>Use Windfalls: Allocate tax refunds or bonuses to your emergency savings<br />
+      <sub/>Cut Unnecessary Expenses: Redirect savings to your emergency fund<br />
+      <sub/>Increase Income: Consider part-time work or freelancing to boost savings<br /><br />
+      
+      Remember, building an emergency fund takes time. Start small and be consistent in your savings efforts to achieve long-term financial security.`,
+      alt: 'Emergency fund savings concept',
+      src: '',
+      styles: {
+        // Add any custom styles here
+      },
+      circleAnim: circleProgress3,
+      segmentAnim: segmentProgress3
+    },
+    {
+      header: 'Understanding Financial Planning',
+      number: '05',
+      content: `Financial planning is the cornerstone of long-term financial stability and success. It involves carefully managing your money to achieve your life goals.<br /><br />
+  
+      <dot/>Key Components of Financial Planning<br />
+      <sub/>Budgeting: Track income and expenses<br />
+      <sub/>Saving: Build emergency funds and long-term wealth<br />
+      <sub/>Investing: Grow your money over time<br />
+      <sub/>Risk Management: Protect your assets with insurance<br />
+      <sub/>Tax Planning: Optimize your tax situation<br />
+      <sub/>Estate Planning: Prepare for wealth transfer<br /><br />
+      
+      A comprehensive financial plan should consider both your current financial situation and your future aspirations. It's a dynamic process that requires regular review and adjustment.<br /><br />
+      
+      <dot/>Steps to Create a Financial Plan<br />
+      <sub/>1. Set clear, measurable financial goals<br />
+      <sub/>2. Assess your current financial situation<br />
+      <sub/>3. Create a realistic budget<br />
+      <sub/>4. Develop a debt repayment strategy<br />
+      <sub/>5. Build an emergency fund<br />
+      <sub/>6. Invest for the future<br />
+      <sub/>7. Review and adjust your plan regularly<br /><br />
+      
+      Remember, financial planning is not a one-time event. As your life changes, so should your financial plan. Regular reviews and adjustments are crucial to stay on track towards your financial goals.`,
+      alt: 'Comprehensive financial planning illustration',
+      src: '',
+      styles: {
+        // Add any custom styles here
+      },
+      circleAnim: circleProgress4,
+      segmentAnim: segmentProgress4
+    },
+    {
+      header: 'The Importance of Emergency Funds',
+      number: '06',
+      content: `An emergency fund is a crucial component of financial stability, acting as a financial safety net during unexpected situations.<br /><br />
+  
+      <dot/>What is an Emergency Fund?<br />
+      An emergency fund is a dedicated savings account to cover unexpected expenses or financial emergencies. It provides a buffer against life's uncertainties without relying on high-interest credit cards or loans.<br /><br />
+      
+      <dot/>Why is an Emergency Fund Important?<br />
+      <sub/>Financial Security: Protects against unexpected job loss or income reduction<br />
+      <sub/>Stress Reduction: Provides peace of mind during challenging times<br />
+      <sub/>Avoiding Debt: Prevents reliance on high-interest loans or credit cards<br />
+      <sub/>Financial Flexibility: Allows you to take advantage of opportunities<br /><br />
+      
+      <dot/>How Much Should You Save?<br />
+      Financial experts generally recommend saving 3-6 months of living expenses. However, the ideal amount can vary based on individual circumstances:<br />
+      <sub/>Job Stability: Those with less stable income may need larger emergency funds<br />
+      <sub/>Family Size: Larger families might require more substantial savings<br />
+      <sub/>Health Considerations: Individuals with chronic health issues may need extra funds<br /><br />
+      
+      <dot/>Building Your Emergency Fund<br />
+      <sub/>Start Small: Begin with a goal of $1,000 and build from there<br />
+      <sub/>Automate Savings: Set up automatic transfers to your emergency fund<br />
+      <sub/>Use Windfalls: Allocate tax refunds or bonuses to your emergency savings<br />
+      <sub/>Cut Unnecessary Expenses: Redirect savings to your emergency fund<br />
+      <sub/>Increase Income: Consider part-time work or freelancing to boost savings<br /><br />
+      
+      Remember, building an emergency fund takes time. Start small and be consistent in your savings efforts to achieve long-term financial security.`,
+      alt: 'Emergency fund savings concept',
+      src: '',
+      styles: {
+        // Add any custom styles here
+      },
+      circleAnim: circleProgress5,
+      segmentAnim: segmentProgress5
+    },
+    {
+      header: 'Understanding Financial Planning',
+      number: '07',
+      content: `Financial planning is the cornerstone of long-term financial stability and success. It involves carefully managing your money to achieve your life goals.<br /><br />
+  
+      <dot/>Key Components of Financial Planning<br />
+      <sub/>Budgeting: Track income and expenses<br />
+      <sub/>Saving: Build emergency funds and long-term wealth<br />
+      <sub/>Investing: Grow your money over time<br />
+      <sub/>Risk Management: Protect your assets with insurance<br />
+      <sub/>Tax Planning: Optimize your tax situation<br />
+      <sub/>Estate Planning: Prepare for wealth transfer<br /><br />
+      
+      A comprehensive financial plan should consider both your current financial situation and your future aspirations. It's a dynamic process that requires regular review and adjustment.<br /><br />
+      
+      <dot/>Steps to Create a Financial Plan<br />
+      <sub/>1. Set clear, measurable financial goals<br />
+      <sub/>2. Assess your current financial situation<br />
+      <sub/>3. Create a realistic budget<br />
+      <sub/>4. Develop a debt repayment strategy<br />
+      <sub/>5. Build an emergency fund<br />
+      <sub/>6. Invest for the future<br />
+      <sub/>7. Review and adjust your plan regularly<br /><br />
+      
+      Remember, financial planning is not a one-time event. As your life changes, so should your financial plan. Regular reviews and adjustments are crucial to stay on track towards your financial goals.`,
+      alt: 'Comprehensive financial planning illustration',
+      src: '',
+      styles: {
+        // Add any custom styles here
+      },
+      circleAnim: circleProgress6,
+      segmentAnim: segmentProgress6
+    },
+    {
+      header: 'The Importance of Emergency Funds',
+      number: '08',
+      content: `An emergency fund is a crucial component of financial stability, acting as a financial safety net during unexpected situations.<br /><br />
+  
+      <dot/>What is an Emergency Fund?<br />
+      An emergency fund is a dedicated savings account to cover unexpected expenses or financial emergencies. It provides a buffer against life's uncertainties without relying on high-interest credit cards or loans.<br /><br />
+      
+      <dot/>Why is an Emergency Fund Important?<br />
+      <sub/>Financial Security: Protects against unexpected job loss or income reduction<br />
+      <sub/>Stress Reduction: Provides peace of mind during challenging times<br />
+      <sub/>Avoiding Debt: Prevents reliance on high-interest loans or credit cards<br />
+      <sub/>Financial Flexibility: Allows you to take advantage of opportunities<br /><br />
+      
+      <dot/>How Much Should You Save?<br />
+      Financial experts generally recommend saving 3-6 months of living expenses. However, the ideal amount can vary based on individual circumstances:<br />
+      <sub/>Job Stability: Those with less stable income may need larger emergency funds<br />
+      <sub/>Family Size: Larger families might require more substantial savings<br />
+      <sub/>Health Considerations: Individuals with chronic health issues may need extra funds<br /><br />
+      
+      <dot/>Building Your Emergency Fund<br />
+      <sub/>Start Small: Begin with a goal of $1,000 and build from there<br />
+      <sub/>Automate Savings: Set up automatic transfers to your emergency fund<br />
+      <sub/>Use Windfalls: Allocate tax refunds or bonuses to your emergency savings<br />
+      <sub/>Cut Unnecessary Expenses: Redirect savings to your emergency fund<br />
+      <sub/>Increase Income: Consider part-time work or freelancing to boost savings<br /><br />
+      
+      Remember, building an emergency fund takes time. Start small and be consistent in your savings efforts to achieve long-term financial security.`,
+      alt: 'Emergency fund savings concept',
+      src: '',
+      styles: {
+        // Add any custom styles here
+      },
+      circleAnim: circleProgress7,
+      segmentAnim: segmentProgress7
+    }
+  ]
 
-                <motion.div className="Button__CTA"
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    style={{ 
-                        opacity: tablecontnent
-                    }}
-                >
-                    <RoundButton href='/' text='Book a Call'/>
-                </motion.div>
-                <motion.div 
-                    className="ProgressBar__container__wrapper"
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    style={{ 
-                        opacity: tablecontnent
-                    }}
-                >
-                    <div 
-                        className='ProgressBar__container'>
-                        <div className="Blog__MainPage__progressBar">
-                            <div className="Blog__MainPage__progressBar_div">
-                                {BlogPostData.map((_, index) => {
-                                  const isLastItem = index === BlogPostData.length - 1;
-                                  return (
-                                      <div className="Blog__MainPage__progressBar__Container" key={index}>
-                                      <div className="circle" onClick={() => handleCircleClick(index)}>
-                                          <motion.div className="circle__inner" style={{ scale: circleProgress[index] }}></motion.div>
-                                      </div>
-                                      {!isLastItem && (
-                                          <div className="segment">
-                                          <motion.div className="segment__inner" style={{ y: segmentProgress[index] }}></motion.div>
-                                          </div>
-                                      )}
-                                      </div>
-                                  );
-                                })}
-                            </div>
-                        </div>
-                    </div>
-                </motion.div>
-                
-                {BlogPostData.map((paragraph, i) => {
-                    const { header, number, content, src, alt, styles} = paragraph
-                    return (
-                        <div className="Content__wrapper" key={number}  ref={el => contentWrapperRefs.current[i] = el}>
-                            <div className="paragraph">
-                                <div className="paragraph__header">
-                                    <h2>{header}</h2>
-                                    <h3>{number}</h3>
-                                    <div className="devider"/>
-                                </div>
-                                
-                                <div className="styled-content">
-                                    {renderContent(content)}
-                                </div>
-                            </div>
-                            <div className="image__wrapper" style={styles}>
-                                {src && <CustomImage src={src} altText={alt}/>}
-                            </div>
-                        </div>
-                    ) 
-                })}
-            </div>
-        </div>
-    )
+  return (
+      <div className="BlogContent" ref={sectionRef}>
+          <div className="Header">
+              <ContentMap handleCircleClick={handleCircleClick} />
+              <div className="Intro__Container">
+                  <h3>Úvod</h3>
+                  {renderIntroContent(blogIntro.content)}
+              </div>
+              <div className="devider"/>
+          </div>
+          <div className="Content__container">
+              <motion.div
+                  className="tableContant"
+                  initial="hidden"
+                  animate={isHovered ? "visible" : "hidden"}
+                  variants={tableContentVariants}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  style={{ 
+                      opacity: tablecontnent
+                  }}
+                  onHoverStart={() => setIsHovered(true)}
+                  onHoverEnd={() => setIsHovered(false)}
+              >
+                  <motion.div 
+                      className="tableContent__hover"
+                  >
+                      <p>Content</p>
+                  </motion.div>
+                  <ContentMap handleCircleClick={handleCircleClick} />
+              </motion.div>
+
+              <motion.div className="Button__CTA"
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  style={{ 
+                      opacity: tablecontnent
+                  }}
+              >
+                  <RoundButton href='/' text='Book a Call'/>
+              </motion.div>
+              <motion.div 
+                  className="ProgressBar__container__wrapper"
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  style={{ 
+                      opacity: tablecontnent
+                  }}
+              >
+                  <div 
+                      className='ProgressBar__container'>
+                      <div className="Blog__MainPage__progressBar">
+                          <div className="Blog__MainPage__progressBar_div">
+                            {BlogPostData.map((post, index) => {
+                                const isLastItem = index === BlogPostData.length - 1;
+                                return (
+                                    <div className="Blog__MainPage__progressBar__Container" key={index}>
+                                        <div className="circle" onClick={() => handleCircleClick(index)}>
+                                            <motion.div 
+                                                className="circle__inner" 
+                                                style={{ scale: post.circleAnim }}
+                                            ></motion.div>
+                                        </div>
+                                        {!isLastItem && (
+                                            <div className="segment">
+                                                <motion.div 
+                                                    className="segment__inner" 
+                                                    style={{ y: post.segmentAnim }}
+                                                ></motion.div>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                          </div>
+                      </div>
+                  </div>
+              </motion.div>
+              
+              {BlogPostData.map((paragraph, i) => {
+                  const { header, number, content, src, alt, styles} = paragraph
+                  return (
+                      <div className="Content__wrapper" key={number}  ref={el => contentWrapperRefs.current[i] = el}>
+                          <div className="paragraph">
+                              <div className="paragraph__header">
+                                  <h2>{header}</h2>
+                                  <h3>{number}</h3>
+                                  <div className="devider"/>
+                              </div>
+                              
+                              <div className="styled-content">
+                                  {renderContent(content)}
+                              </div>
+                          </div>
+                          <div className="image__wrapper" style={styles}>
+                              {src && <CustomImage src={src} altText={alt}/>}
+                          </div>
+                      </div>
+                  ) 
+              })}
+          </div>
+      </div>
+  )
 }
 
 function CommentForm () {

@@ -364,17 +364,18 @@
                             }
                     
                             .segment {
-                            width: 5px;
-                            height: 50px;
-                            border: #04444C 1px solid;
-                            overflow: hidden;
-                            border-radius: 25%;
-                    
-                            .segment__inner {
-                                width: 100%;
-                                height: 100%;
-                                background-color: #00F0FF;
-                            }
+                                width: 5px;
+                                height: 50px;
+                                border: #04444C 1px solid;
+                                overflow: hidden;
+                                border-radius: 25%;
+                                transform: rotate(180deg);
+                        
+                                .segment__inner {
+                                    width: 100%;
+                                    height: 100%;
+                                    background-color: #00F0FF;
+                                }
                             }
                         }
                         }

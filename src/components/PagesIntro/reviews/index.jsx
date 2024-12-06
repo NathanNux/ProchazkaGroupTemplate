@@ -126,7 +126,7 @@ export default function ReviewsIntro () {
                             {stats.map(( sta, i) => {
                                 const { name, number, src, alt } = sta
                                 return(
-                                    <div className="stat">
+                                    <div className="stat" key={i}>
                                         <p>{number}</p>
                                         <Image src={src} alt={alt} width={50} height={50}/>
                                     </div>
