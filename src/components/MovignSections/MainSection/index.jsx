@@ -10,8 +10,8 @@ export default function MainPageSection() {
         <section style={{ backgroundColor: '#fff'}}>
             <Benefit />
             <About />
-            {/* <Blog />
-            <Sales />
+            <Blog />
+            {/* <Sales />
             <Offer />
             <Contact /> */}
         </section>
