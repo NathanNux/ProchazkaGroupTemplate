@@ -137,17 +137,32 @@ export default function BenefitRewards() {
     const segmentInputs = useMemo(() => Array.from({ length: points }, (_, i) => getSegmentInputs(i)), [points, getSegmentInputs]);
 
     // Create transforms
-    const imageOpacities = opacityInputs.map((inputs, i) => 
-        useTransform(scrollYProgress, inputs, i === 0 ? [1, 1, 0] : i === points - 1 ? [0, 1, 1] : [0, 1, 0], { clamp: true })
-    );
+    const imageOpacities = [];
+    const circleProgress = [];
+    const segmentProgress = [];
 
-    const circleProgress = circleInputs.map((inputs, i) => 
-        useTransform(scrollYProgress, inputs, i === 0 ? [1, 1] : [0, 1], { clamp: true })
-    );
+    for (let i = 0; i < points; i++) {
+        imageOpacities.push(useTransform(
+            scrollYProgress, 
+            opacityInputs[i], 
+            i === 0 ? [1, 1, 0] : i === points - 1 ? [0, 1, 1] : [0, 1, 0], 
+            { clamp: true }
+        ));
 
-    const segmentProgress = segmentInputs.map((inputs) => 
-        useTransform(scrollYProgress, inputs, ['100%', '0%'], { clamp: true })
-    );
+        circleProgress.push(useTransform(
+            scrollYProgress, 
+            circleInputs[i], 
+            i === 0 ? [1, 1] : [0, 1], 
+            { clamp: true }
+        ));
+
+        segmentProgress.push(useTransform(
+            scrollYProgress, 
+            segmentInputs[i], 
+            ['100%', '0%'], 
+            { clamp: true }
+        ));
+    }
 
 
     // Scroll handling with useCallback
