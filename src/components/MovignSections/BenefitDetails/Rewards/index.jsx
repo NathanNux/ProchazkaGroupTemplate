@@ -6,127 +6,7 @@ import Image from "next/image";
 import { useRef, useEffect, useState, useMemo, useCallback, useLayoutEffect } from "react";
 
 
-const people = [
-    {
-        name: "John Doe",
-        number: '01',
-        moto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        src: "/svg/tree.png",
-        alt: "profile_pic1",
-        photo1: '/assets/reviewsBackground.png',
-        altText1: 'asset1',
-        photo2: '/assets/reviewsBackground.png',
-        altText2: 'asset2',
-    },
-    {
-        name: "Jane Doe",
-        number: '02',
-        moto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        src: "/svg/cactus.webp",
-        alt: "profile_pic1",
-        photo1: '/assets/reviewsBackground.png',
-        altText1: 'asset1',
-        photo2: '/assets/reviewsBackground.png',
-        altText2: 'asset2',
-    },
-    {
-        name: "Jane Doe",
-        number: '03',
-        moto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        src: "/svg/house.webp",
-        alt: "profile_pic1",
-        photo1: '/assets/reviewsBackground.png',
-        altText1: 'asset1',
-        photo2: '/assets/reviewsBackground.png',
-        altText2: 'asset2',
-    },
-    {
-        name: "Jane Doe",
-        number: '04',
-        moto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            src: "/svg/tree.png",
-        alt: "profile_pic1",
-        photo1: '/assets/reviewsBackground.png',
-        altText1: 'asset1',
-        photo2: '/assets/reviewsBackground.png',
-        altText2: 'asset2',
-    },
-    {
-        name: "Jane Doe",
-        number: '05',
-        moto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        src: "/svg/rock.webp",
-        alt: "profile_pic1",
-        photo1: '/assets/reviewsBackground.png',
-        altText1: 'asset1',
-        photo2: '/assets/reviewsBackground.png',
-        altText2: 'asset2',
-    },
-    {
-        name: "Jane Doe",
-        number: '06',
-        moto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        src: "/svg/tree.webp",
-        alt: "profile_pic1",
-        photo1: '/assets/reviewsBackground.png',
-        altText1: 'asset1',
-        photo2: '/assets/reviewsBackground.png',
-        altText2: 'asset2',
-    },
-    {
-        name: "Jane Doe",
-        number: '07',
-        moto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        src: "/svg/water.webp",
-        alt: "profile_pic1",
-        photo1: '/assets/reviewsBackground.png',
-        altText1: 'asset1',
-        photo2: '/assets/reviewsBackground.png',
-        altText2: 'asset2',
-    },
-    {
-        name: "Jane Doe",
-        number: '08',
-        moto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        src: "/svg/tree.png",
-        alt: "profile_pic1",
-        photo1: '/assets/reviewsBackground.png',
-        altText1: 'asset1',
-        photo2: '/assets/reviewsBackground.png',
-        altText2: 'asset2',
-    },
-]
-
-// Custom hooks for transforms
-const useImageOpacity = (scrollYProgress, input, index, totalPoints) => {
-    return useTransform(
-      scrollYProgress,
-      input,
-      index === 0 ? [1, 1, 0] : index === totalPoints - 1 ? [0, 1, 1] : [0, 1, 0],
-      { clamp: true }
-    );
-  };
-  
-  const useCircleProgress = (scrollYProgress, input, index) => {
-    return useTransform(
-      scrollYProgress,
-      input,
-      index === 0 ? [1, 1] : [0, 1],
-      { clamp: true }
-    );
-  };
-  
-  const useSegmentProgress = (scrollYProgress, input) => {
-    return useTransform(
-      scrollYProgress,
-      input,
-      ['100%', '0%'],
-      { clamp: true }
-    );
-  };
-
 export default function BenefitRewards() {
-    const points = useMemo(() => people.length, []);
     const sectionScroll = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
     const scrollTimeout = useRef(null);
@@ -137,45 +17,157 @@ export default function BenefitRewards() {
         target: sectionScroll,
     });
 
-  // Calculate peak points outside of useMemo
-  const peakPoints = useMemo(() => 
-    Array.from({ length: points }, (_, i) => (i / points) + (1 / (points * 2))),
-    [points]
-);
+    const points = 8;
+    // Calculate peak points with useMemo
+    const peakPoints = useMemo(() => (
+        Array.from({ length: points }, (_, i) => (i / points) + (1 / (points * 2)))
+    ), [points]);
 
-// Calculate input arrays
-const { opacityInputs, circleInputs, segmentInputs } = useMemo(() => {
-    const opacityInputs = peakPoints.map(pp => [pp - 0.6/points, pp, pp + 0.6/points]);
-    const circleInputs = peakPoints.map(pp => [pp - 0.1/points, pp]);
-    const segmentInputs = peakPoints.map((pp, i) => [pp, pp + (i === points - 1 ? 0.5/points : 1/points)]);
-    return { opacityInputs, circleInputs, segmentInputs };
-}, [peakPoints, points]);
+    //Image anims
+    const imageOpacity0 = useTransform(scrollYProgress, [0, peakPoints[0], peakPoints[0] + 0.05], [1, 1, 0], { clamp: true });
+    const imageOpacity1 = useTransform(scrollYProgress, [peakPoints[1] - 0.075, peakPoints[1], peakPoints[1] + 0.075], [0, 1, 0], { clamp: true });
+    const imageOpacity2 = useTransform(scrollYProgress, [peakPoints[2] - 0.075, peakPoints[2], peakPoints[2] + 0.075], [0, 1, 0], { clamp: true });
+    const imageOpacity3 = useTransform(scrollYProgress, [peakPoints[3] - 0.075, peakPoints[3], peakPoints[3] + 0.075], [0, 1, 0], { clamp: true });
+    const imageOpacity4 = useTransform(scrollYProgress, [peakPoints[4] - 0.075, peakPoints[4], peakPoints[4] + 0.075], [0, 1, 0], { clamp: true });
+    const imageOpacity5 = useTransform(scrollYProgress, [peakPoints[5] - 0.075, peakPoints[5], peakPoints[5] + 0.075], [0, 1, 0], { clamp: true });
+    const imageOpacity6 = useTransform(scrollYProgress, [peakPoints[6] - 0.075, peakPoints[6], peakPoints[6] + 0.075], [0, 1, 0], { clamp: true });
+    const imageOpacity7 = useTransform(scrollYProgress, [peakPoints[7] - 0.075, peakPoints[7], peakPoints[7] + 0.075], [0, 1, 0], { clamp: true });
 
- // Create transforms without using .map()
- const imageOpacities = useMemo(() => {
-    const opacities = [];
-    for (let i = 0; i < points; i++) {
-      opacities.push(useImageOpacity(scrollYProgress, opacityInputs[i], i, points));
-    }
-    return opacities;
-  }, [opacityInputs, scrollYProgress, points]);
+    //Circle anims
+    const circleProgress0 = useTransform(scrollYProgress, [0, peakPoints[0]], [1, 1], { clamp: true });
+    const circleProgress1 = useTransform(scrollYProgress, [peakPoints[1] - 0.05, peakPoints[1]], [0, 1], { clamp: true });
+    const circleProgress2 = useTransform(scrollYProgress, [peakPoints[2] - 0.05, peakPoints[2]], [0, 1], { clamp: true });
+    const circleProgress3 = useTransform(scrollYProgress, [peakPoints[3] - 0.05, peakPoints[3]], [0, 1], { clamp: true });
+    const circleProgress4 = useTransform(scrollYProgress, [peakPoints[4] - 0.05, peakPoints[4]], [0, 1], { clamp: true });
+    const circleProgress5 = useTransform(scrollYProgress, [peakPoints[5] - 0.05, peakPoints[5]], [0, 1], { clamp: true });
+    const circleProgress6 = useTransform(scrollYProgress, [peakPoints[6] - 0.05, peakPoints[6]], [0, 1], { clamp: true });
+    const circleProgress7 = useTransform(scrollYProgress, [peakPoints[7] - 0.05, peakPoints[7]], [0, 1], { clamp: true });
 
-  const circleProgress = useMemo(() => {
-    const progress = [];
-    for (let i = 0; i < points; i++) {
-      progress.push(useCircleProgress(scrollYProgress, circleInputs[i], i));
-    }
-    return progress;
-  }, [circleInputs, scrollYProgress]);
+    
+    //Segents anims
+    const segmentProgress0 = useTransform(scrollYProgress, [peakPoints[0], peakPoints[1]], ['100%', '0%'], { clamp: true });
+    const segmentProgress1 = useTransform(scrollYProgress, [peakPoints[1], peakPoints[2]], ['100%', '0%'], { clamp: true });
+    const segmentProgress2 = useTransform(scrollYProgress, [peakPoints[2], peakPoints[3]], ['100%', '0%'], { clamp: true });
+    const segmentProgress3 = useTransform(scrollYProgress, [peakPoints[3], peakPoints[4]], ['100%', '0%'], { clamp: true });
+    const segmentProgress4 = useTransform(scrollYProgress, [peakPoints[4], peakPoints[5]], ['100%', '0%'], { clamp: true });
+    const segmentProgress5 = useTransform(scrollYProgress, [peakPoints[5], peakPoints[6]], ['100%', '0%'], { clamp: true });
+    const segmentProgress6 = useTransform(scrollYProgress, [peakPoints[6], peakPoints[7]], ['100%', '0%'], { clamp: true });
+    const segmentProgress7 = useTransform(scrollYProgress, [peakPoints[7], 1], ['100%', '0%'], { clamp: true });
 
-  const segmentProgress = useMemo(() => {
-    const progress = [];
-    for (let i = 0; i < points; i++) {
-      progress.push(useSegmentProgress(scrollYProgress, segmentInputs[i]));
-    }
-    return progress;
-  }, [segmentInputs, scrollYProgress]);
-
+    const people = [
+        {
+            name: "John Doe",
+            number: '01',
+            moto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            src: "/svg/tree.png",
+            alt: "profile_pic1",
+            photo1: '/assets/reviewsBackground.png',
+            altText1: 'asset1',
+            photo2: '/assets/reviewsBackground.png',
+            altText2: 'asset2',
+            imageAnim: imageOpacity0,
+            circleAnim: circleProgress0,
+            segmentAnim: segmentProgress0
+        },
+        {
+            name: "Jane Doe",
+            number: '02',
+            moto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            src: "/svg/cactus.webp",
+            alt: "profile_pic1",
+            photo1: '/assets/reviewsBackground.png',
+            altText1: 'asset1',
+            photo2: '/assets/reviewsBackground.png',
+            altText2: 'asset2',
+            imageAnim: imageOpacity1,
+            circleAnim: circleProgress1,
+            segmentAnim: segmentProgress1
+        },
+        {
+            name: "Jane Doe",
+            number: '03',
+            moto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            src: "/svg/house.webp",
+            alt: "profile_pic1",
+            photo1: '/assets/reviewsBackground.png',
+            altText1: 'asset1',
+            photo2: '/assets/reviewsBackground.png',
+            altText2: 'asset2',
+            imageAnim: imageOpacity2,
+            circleAnim: circleProgress2,
+            segmentAnim: segmentProgress2
+        },
+        {
+            name: "Jane Doe",
+            number: '04',
+            moto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                src: "/svg/tree.png",
+            alt: "profile_pic1",
+            photo1: '/assets/reviewsBackground.png',
+            altText1: 'asset1',
+            photo2: '/assets/reviewsBackground.png',
+            altText2: 'asset2',
+            imageAnim: imageOpacity3,
+            circleAnim: circleProgress3,
+            segmentAnim: segmentProgress3
+        },
+        {
+            name: "Jane Doe",
+            number: '05',
+            moto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            src: "/svg/rock.webp",
+            alt: "profile_pic1",
+            photo1: '/assets/reviewsBackground.png',
+            altText1: 'asset1',
+            photo2: '/assets/reviewsBackground.png',
+            altText2: 'asset2',
+            imageAnim: imageOpacity4,
+            circleAnim: circleProgress4,
+            segmentAnim: segmentProgress4
+        },
+        {
+            name: "Jane Doe",
+            number: '06',
+            moto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            src: "/svg/tree.webp",
+            alt: "profile_pic1",
+            photo1: '/assets/reviewsBackground.png',
+            altText1: 'asset1',
+            photo2: '/assets/reviewsBackground.png',
+            altText2: 'asset2',
+            imageAnim: imageOpacity5,
+            circleAnim: circleProgress5,
+            segmentAnim: segmentProgress5
+        },
+        {
+            name: "Jane Doe",
+            number: '07',
+            moto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            src: "/svg/water.webp",
+            alt: "profile_pic1",
+            photo1: '/assets/reviewsBackground.png',
+            altText1: 'asset1',
+            photo2: '/assets/reviewsBackground.png',
+            altText2: 'asset2',
+            imageAnim: imageOpacity6,
+            circleAnim: circleProgress6,
+            segmentAnim: segmentProgress6
+        },
+        {
+            name: "Jane Doe",
+            number: '08',
+            moto: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            src: "/svg/tree.png",
+            alt: "profile_pic1",
+            photo1: '/assets/reviewsBackground.png',
+            altText1: 'asset1',
+            photo2: '/assets/reviewsBackground.png',
+            altText2: 'asset2',
+            imageAnim: imageOpacity7,
+            circleAnim: circleProgress7,
+            segmentAnim: segmentProgress7
+        },
+    ]
 
     // Scroll handling with useCallback
     const handleScroll = useCallback(() => {
@@ -271,8 +263,8 @@ const { opacityInputs, circleInputs, segmentInputs } = useMemo(() => {
                                     key={i} 
                                     className="BenefitRewards__MainInfo__header__container" 
                                     style={{ 
-                                        zIndex: i + 1, 
-                                        opacity: imageOpacities[i]
+                                        zIndex: i - 1, 
+                                        opacity: person.imageAnim
                                     }}
                                 >
                                     <Image src={person.photo1} alt={person.altText1} fill={true}/>
@@ -291,8 +283,8 @@ const { opacityInputs, circleInputs, segmentInputs } = useMemo(() => {
                                     key={i} 
                                     className="BenefitRewards__SubInfo__intro" 
                                     style={{ 
-                                        zIndex: i + 1, 
-                                        opacity: imageOpacities[i]
+                                        zIndex: i - 1, 
+                                        opacity: person.imageAnim
                                     }}
                                 >
                                     <Image src={person.photo2} alt={person.altText2} fill={true}/>
@@ -317,7 +309,7 @@ const { opacityInputs, circleInputs, segmentInputs } = useMemo(() => {
                                 key={i} 
                                 className="BenefitRewards__Collage__pic"
                                 style={{ 
-                                    opacity: imageOpacities[i]
+                                    opacity: person.imageAnim
                                 }}
                             >
                                 <Image src={person.src} alt={person.alt} fill={true}/>
@@ -326,16 +318,16 @@ const { opacityInputs, circleInputs, segmentInputs } = useMemo(() => {
                     </div>
                     <div className="BenefitRewards__Collage__progress">
                         <div>
-                            {Array.from({ length: points }).map((_, i) => (
+                            {people.map((person, i) => (
                                 <div key={`circle-${i}`} className="progress__circle">
-                                    <motion.div style={{ scale: circleProgress[i] }}></motion.div>
+                                <motion.div style={{ scale: person.circleAnim }}></motion.div>
                                 </div>
                             ))}
                         </div>
                         <div>
-                            {Array.from({ length: points }).map((_, i) => (
+                            {people.map((person, i) => (
                                 <div key={`segment-outline-${i}`} className="progress__segment">
-                                    <motion.div style={{ x: segmentProgress[i] }}></motion.div>
+                                <motion.div style={{ x: person.segmentAnim }}></motion.div>
                                 </div>
                             ))}
                         </div>
