@@ -16,7 +16,7 @@ export default function Home() {
       <Cursor />
       <MainIntro />
       <Statbar />
-      {/* <MainPageSection /> */}
+      <MainPageSection />
       <QNA />
       <Footer />
     </>
