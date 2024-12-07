@@ -11,13 +11,13 @@ export default function Offer() {
     return(
         <section>
             <IntroOffer />
-            <Reality />
+            {/* <Reality />
             <BecomeAclient />
             <Benefits />
             <TheWay />
             <Requirements />
             <Testimonials />
-            <OurDeal />
+            <OurDeal /> */}
         </section>
     )
 }
