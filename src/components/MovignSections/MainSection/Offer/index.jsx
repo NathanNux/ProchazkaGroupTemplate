@@ -13,8 +13,8 @@ export default function Offer() {
             <IntroOffer />
             <Reality />
             <BecomeAclient />
-            {/* <Benefits />
-            <TheWay />
+            <Benefits />
+            {/* <TheWay />
             <Requirements />
             <Testimonials />
             <OurDeal /> */}
