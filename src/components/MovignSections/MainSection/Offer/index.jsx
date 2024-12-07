@@ -11,8 +11,8 @@ export default function Offer() {
     return(
         <section>
             <IntroOffer />
-            {/* <Reality />
-            <BecomeAclient />
+            <Reality />
+            {/* <BecomeAclient />
             <Benefits />
             <TheWay />
             <Requirements />
