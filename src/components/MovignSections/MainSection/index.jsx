@@ -12,7 +12,7 @@ export default function MainPageSection() {
             <About />
             <Blog />
             <Sales />
-            {/* <Offer /> */}
+            <Offer />
             <Contact />
         </section>
     )
