@@ -16,7 +16,7 @@ export default function Offer() {
             <Benefits />
             <TheWay />
             <Requirements />
-            {/* <Testimonials /> */}
+            <Testimonials />
             <OurDeal />
         </section>
     )
