@@ -14,8 +14,8 @@ export default function Offer() {
             <Reality />
             <BecomeAclient />
             <Benefits />
-            {/* <TheWay />
-            <Requirements />
+            <TheWay />
+            {/* <Requirements />
             <Testimonials />
             <OurDeal /> */}
         </section>
