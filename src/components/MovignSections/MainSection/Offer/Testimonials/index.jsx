@@ -114,33 +114,32 @@ export default function Testimonials () {
 
     const totalTestimonials = testimonials.length;
 
-    // Auto-rotation effect
-    useEffect(() => {
-        if (!isAutoPlaying) return;
-        
-        const timer = setInterval(() => {
-        handleNext(0); // Update first card
-        setTimeout(() => {
-            handleNext(1); // Update second card with delay
-        }, 300);
-        }, 10000);
-
-        return () => clearInterval(timer);
-    }, [isAutoPlaying, activeIndices, handleNext]);
-
-    const handleNext = (testimonialPosition) => {
+        const handleNext = (testimonialPosition) => {
         setDirection(1);
         setActiveIndices((prevIndices) => {
             const newIndices = [...prevIndices];
-            // Get next valid index that's not used by the other card
             let nextIndex = (newIndices[testimonialPosition] + 2) % totalTestimonials;
             while (newIndices.includes(nextIndex)) {
-            nextIndex = (nextIndex + 1) % totalTestimonials;
+                nextIndex = (nextIndex + 1) % totalTestimonials;
             }
             newIndices[testimonialPosition] = nextIndex;
             return newIndices;
         });
     };
+
+    // Now useEffect can safely use handleNext
+    useEffect(() => {
+        if (!isAutoPlaying) return;
+        
+        const timer = setInterval(() => {
+            handleNext(0);
+            setTimeout(() => {
+                handleNext(1);
+            }, 300);
+        }, 10000);
+
+        return () => clearInterval(timer);
+    }, [isAutoPlaying]);  // Remove handleNext from dependencies
     
     const handlePrev = (testimonialPosition) => {
         setDirection(-1);
